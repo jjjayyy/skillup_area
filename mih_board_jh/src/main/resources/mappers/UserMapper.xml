@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.mih.board.user.dao.UserMapper">
+
+	<insert id="insertUser"
+		parameterType="com.mih.board.user.vo.UserVO">
+		insert into user (USER_NO, USER_EMAIL, USER_PW, USER_NM) values (null, #{UserEmail},
+		#{UserPw},#{UserNm})
+	</insert>
+
+	<select id="getUser" parameterType="int" resultMap="userMap">
+		select * from user
+	</select>
+
+	<resultMap type="com.mih.board.user.vo.UserVO" id="userMap">
+		<result column="USER_NO" property="UserNo"/>
+		<result column="USER_EMAIL" property="UserEmail" />
+		<result column="USER_PW" property="UserPw" />
+		<result column="USER_NM" property="UserNm" />
+	</resultMap>
+</mapper>
