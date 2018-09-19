@@ -1,34 +1,33 @@
 package com.mih.board.user.vo;
 
 public class UserVO {
-	private int UserNo;
-	private String UserEmail;
-	private String UserPw;
-	private String UserNm;
+	private int userNo;
+	private String userEmail;
+	private String userPw;
+	private String userNm;
 	
 	public int getUserNo() {
-		return UserNo;
+		return userNo;
 	}
 	public void setUserNo(int userNo) {
-		UserNo = userNo;
+		this.userNo = userNo;
 	}
 	public String getUserEmail() {
-		return UserEmail;
+		return userEmail;
 	}
 	public void setUserEmail(String userEmail) {
-		UserEmail = userEmail;
+		this.userEmail = userEmail;
 	}
 	public String getUserPw() {
-		return UserPw;
+		return userPw;
 	}
 	public void setUserPw(String userPw) {
-		UserPw = userPw;
+		this.userPw = userPw;
 	}
 	public String getUserNm() {
-		return UserNm;
+		return userNm;
 	}
 	public void setUserNm(String userNm) {
-		UserNm = userNm;
+		this.userNm = userNm;
 	}
-
 }

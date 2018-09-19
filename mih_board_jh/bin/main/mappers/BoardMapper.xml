@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.mih.board.board.dao.BoardMapper">
+
+    <!--글 등록-->
+	<insert id="insertBoard"
+		parameterType="com.mih.board.board.vo.BoardVO">
+		insert into board (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE, BOARD_VIEW_COUNT, USER_NO, CT_NO_MINOR) values (null, #{boardTitle},
+		#{boardContent},now(),0,#{userNo},#{ctNoMinor})
+	</insert>
+
+    <!--글 리스트 불러오기-->
+	<select id="getBoard" parameterType="int" resultMap="boardMap">
+		select BOARD_NO, BOARD_TITLE, BOARD_DATE, BOARD_VIEW_COUNT, board.USER_NO, CT_NO_MINOR, user.USER_NM from board JOIN user ON board.USER_NO = user.USER_NO
+	</select>
+
+    <!--카테고리 불러오기(top)-->
+	<select id="getCtMajor" parameterType="int" resultMap="ctMajorMap">
+		select CT_NO_MAJOR, CT_NM_MAJOR, USER_NO from ct_major
+	</select>
+
+	<!--카테고리 불러오기(bottom)-->
+	<select id="getCtMinor" parameterType="int" resultMap="ctMinorMap">
+		select CT_NO_MINOR, CT_NM_MINOR, CT_NO_MAJOR, USER_NO from ct_minor
+	</select>
+
+	<!--카테고리 등록(top)-->
+	<insert id="insertCtMajor"
+		parameterType="com.mih.board.board.vo.CategoryVO">
+		insert into ct_major (CT_NO_MAJOR, CT_NM_MAJOR, USER_NO) values (null, #{ctNmMajor}, #{userNo})
+	</insert>
+
+	<!--카테고리 등록(bottom)-->
+	<insert id="insertCtMinor"
+		parameterType="com.mih.board.board.vo.CategoryVO">
+		insert into ct_minor (CT_NO_MINOR, CT_NM_MINOR, CT_NO_MAJOR, USER_NO) values (null, #{ctNmMinor},
+		#{ctNoMajor}, #{userNo})
+	</insert>
+
+    <!--글 불러오기-->
+	<select id="getBoardDetail" parameterType="int" resultMap="boardMap">
+		select BOARD_NO, BOARD_TITLE, convert(BOARD_CONTENT USING utf8), BOARD_DATE, BOARD_VIEW_COUNT, board.USER_NO, CT_NO_MINOR, user.USER_NM from board JOIN user ON board.USER_NO = user.USER_NO
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</select>
+
+	<!--카테고리별 글 리스트 불러오기-->
+	<select id="getBoardListCat" parameterType="int" resultMap="boardMap">
+		select BOARD_NO, BOARD_TITLE, BOARD_DATE, BOARD_VIEW_COUNT, board.USER_NO, CT_NO_MINOR, user.USER_NM from board JOIN user ON board.USER_NO = user.USER_NO
+		<where>
+			CT_NO_MINOR = #{ctNoMinor}
+		</where>
+	</select>
+
+	<!--조회수 업데이트-->
+	<update id="updateHits" parameterType="com.mih.board.board.vo.BoardVO">
+		update board set BOARD_VIEW_COUNT = BOARD_VIEW_COUNT + 1
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</update>
+
+	<!--글 수정-->
+	<update id="editArticle" parameterType="com.mih.board.board.vo.BoardVO">
+		update board set BOARD_TITLE = #{boardTitle}, BOARD_CONTENT = #{boardContent}
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</update>
+
+	<!--글 삭제-->
+	<delete id="deleteArticle" parameterType="com.mih.board.board.vo.BoardVO">
+		delete from board
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</delete>
+
+	<!--댓글 입력-->
+	<insert id="insertReply" parameterType="com.mih.board.board.vo.ReplyVO">
+		insert into reply (RE_NO, RE_CONTENT, PARENT_RE_NO, DEPTH, USER_NO, BOARD_NO, RE_DATE) values (null, #{reContent}, #{parentReNo}, #{depth}, #{userNo}, #{boardNo}, now())
+	</insert>
+
+	<!--댓글 불러오기-->
+	<select id="getReply" parameterType="int" resultMap="replyMap">
+		select RE_NO, RE_CONTENT, PARENT_RE_NO, DEPTH, reply.USER_NO, BOARD_NO, RE_DATE, user.USER_NM from reply JOIN user ON reply.USER_NO = user.USER_NO
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+		order by RE_NO asc
+	</select>
+
+	<!--댓글 삭제-->
+	<delete id="deleteReply" parameterType="com.mih.board.board.vo.ReplyVO">
+		delete from reply
+		<where>
+			RE_NO = #{reNo}
+		</where>
+	</delete>
+
+	<!--댓글 수정-->
+	<update id="editReply" parameterType="com.mih.board.board.vo.ReplyVO">
+		update reply set RE_CONTENT = #{reContent}
+		<where>
+			RE_NO = #{reNo}
+		</where>
+	</update>
+	
+	<!-- 댓글 갯수 -->
+	<select id="getReplyCnt" parameterType="int" resultMap="replyMap">
+		select count(RE_NO) from reply
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</select>
+	
+	<!-- 첨부파일 저장 -->
+	<insert id="addFile" parameterType="com.mih.board.board.vo.FileVO">
+		<!-- insert 전에 boardNo 값 불러옴 -->
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			select max(BOARD_NO) from board
+		</selectKey>
+		insert into file (FILE_NO, ORIGINAL_FILE_NM, FILE_SIZE, BOARD_NO, SAVED_FILE_NM) values (null, #{originalFileNm}, #{fileSize}, #{boardNo}, #{savedFileNm})
+	</insert>
+	
+	<!-- 첨부파일 불러오기 -->
+	<select id="getFile" parameterType="int" resultMap="fileMap">
+		select FILE_NO, ORIGINAL_FILE_NM, ROUND(FILE_SIZE/1024,1) as FILE_SIZE, BOARD_NO, SAVED_FILE_NM from file
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</select>
+	
+	<!-- 첨부파일 다운로드 -->
+	<select id="getDownFile" parameterType="int" resultMap="fileMap">
+		select ORIGINAL_FILE_NM, SAVED_FILE_NM from file
+		<where>
+			FILE_NO = #{fileNo}
+		</where>
+	</select>
+	
+	<resultMap type="com.mih.board.board.vo.BoardVO" id="boardMap">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="convert(BOARD_CONTENT USING utf8)" property="boardContent"/>
+        <result column="BOARD_DATE" property="boardDate"/>
+        <result column="BOARD_VIEW_COUNT" property="boardViewCount"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="CT_NO_MINOR" property="ctNoMinor"/>
+		<result column="USER_NM" property="userNm"/>
+	</resultMap>
+
+	<resultMap type="com.mih.board.board.vo.CategoryVO" id="ctMajorMap">
+		<result column="CT_NO_MAJOR" property="ctNoMajor"/>
+		<result column="CT_NM_MAJOR" property="ctNmMajor"/>
+		<result column="USER_NO" property="userNo"/>
+	</resultMap>
+
+	<resultMap type="com.mih.board.board.vo.CategoryVO" id="ctMinorMap">
+		<result column="CT_NO_MINOR" property="ctNoMinor"/>
+		<result column="CT_NM_MINOR" property="ctNmMinor"/>
+		<result column="CT_NO_MAJOR" property="ctNoMajor"/>
+		<result column="USER_NO" property="userNo"/>
+	</resultMap>
+
+	<resultMap type="com.mih.board.board.vo.ReplyVO" id="replyMap">
+		<result column="RE_NO" property="reNo"/>
+		<result column="RE_CONTENT" property="reContent"/>
+		<result column="PARENT_RE_NO" property="parentReNo"/>
+		<result column="DEPTH" property="depth"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="RE_DATE" property="reDate"/>
+		<result column="USER_NM" property="userNm"/>
+	</resultMap>
+	
+	<resultMap type="com.mih.board.board.vo.FileVO" id="fileMap">
+		<result column="FILE_NO" property="fileNo"/>
+		<result column="ORIGINAL_FILE_NM" property="originalFileNm"/>
+		<result column="FILE_SIZE" property="fileSize"/>
+        <result column="BOARD_NO" property="boardNo"/>
+        <result column="SAVED_FILE_NM" property="savedFileNm"/>
+	</resultMap>
+
+	</mapper>
+

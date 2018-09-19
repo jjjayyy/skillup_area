@@ -33,6 +33,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 
 <body>
@@ -45,25 +46,25 @@
 						<h3 class="panel-title">Create your personal account</h3>
 					</div>
 					<div class="panel-body">
-						<form role="form">
+						<form role="form" id="registerForm" action="/register" method="post">
 							<fieldset>
 								<div class="form-group">
-									<input class="form-control" placeholder="E-mail" name="email"
-										type="email" autofocus>
+									<input class="form-control" placeholder="E-mail"
+										name="userEmail" type="email" autofocus>
 								</div>
 								<div class="form-group">
-									<input class="form-control" placeholder="Name"
-										name="name" type="text">
+									<input class="form-control" placeholder="Name" name="userNm"
+										type="text">
 								</div>
 								<div class="form-group">
-									<input class="form-control" placeholder="Password"
-										name="password" type="password" value="">
+									<input class="form-control" placeholder="password"
+										name="userPw" type="password" value="">
 								</div>
-
-								<a href="login" class="btn btn-lg btn-success btn-block" onclick="register();">Create
-									an account</a>
 							</fieldset>
+							<input type="submit" class="btn btn-lg btn-success btn-block"
+								value="Create an account" onclick="return register();">
 						</form>
+
 					</div>
 				</div>
 			</div>
@@ -81,6 +82,9 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="/resources/dist/js/sb-admin-2.js"></script>
+
+	<!-- Signup Check -->
+	<script src="/resources/js/signup.js"></script>
 
 </body>
 

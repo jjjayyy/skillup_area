@@ -6,18 +6,18 @@
 
 	<insert id="insertUser"
 		parameterType="com.mih.board.user.vo.UserVO">
-		insert into user (USER_NO, USER_EMAIL, USER_PW, USER_NM) values (null, #{UserEmail},
-		#{UserPw},#{UserNm})
+		insert into user (USER_NO, USER_EMAIL, USER_PW, USER_NM) values (null, #{userEmail},
+		#{userPw},#{userNm})
 	</insert>
 
 	<select id="getUser" parameterType="int" resultMap="userMap">
-		select * from user
+		select USER_NO, USER_EMAIL, USER_PW, USER_NM from user
 	</select>
 
 	<resultMap type="com.mih.board.user.vo.UserVO" id="userMap">
-		<result column="USER_NO" property="UserNo"/>
-		<result column="USER_EMAIL" property="UserEmail" />
-		<result column="USER_PW" property="UserPw" />
-		<result column="USER_NM" property="UserNm" />
+		<result column="USER_NO" property="userNo"/>
+		<result column="USER_EMAIL" property="userEmail" />
+		<result column="USER_PW" property="userPw" />
+		<result column="USER_NM" property="userNm" />
 	</resultMap>
 </mapper>
