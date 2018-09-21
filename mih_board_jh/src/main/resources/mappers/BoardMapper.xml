@@ -116,6 +116,14 @@
 		</where>
 	</select>
 	
+	<!-- 게시글 삭제시 댓글도 함께 지우기 -->
+	<delete id="deleteReplyWithBoard" parameterType="com.mih.board.board.vo.ReplyVO">
+		delete from reply
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</delete>
+	
 	<!-- 첨부파일 저장 -->
 	<insert id="addFile" parameterType="com.mih.board.board.vo.FileVO">
 		<!-- insert 전에 boardNo 값 불러옴 -->
@@ -141,6 +149,14 @@
 		</where>
 	</select>
 	
+	<!-- 첨부파일 삭제 -->
+	<delete id="deleteFile" parameterType="com.mih.board.board.vo.FileVO">
+		delete from file
+		<where>
+			BOARD_NO = #{boardNo}
+		</where>
+	</delete>
+	
 	<!-- 엑셀 데이터 입력 -->
 	<insert id="insertExcel" parameterType="com.mih.board.board.vo.ExcelVO">
 		insert into exceldata (ROW_ID, ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE,
@@ -151,6 +167,8 @@
 			#{postalCode}, #{region}, #{productId}, #{category}, #{subCategory}, 
 			#{productName}, #{sales}, #{quantity}, #{discount}, #{profit})
 	</insert>
+	
+	
 	
 	<resultMap type="com.mih.board.board.vo.BoardVO" id="boardMap">
 		<result column="BOARD_NO" property="boardNo"/>

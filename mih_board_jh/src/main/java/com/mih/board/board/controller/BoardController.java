@@ -264,8 +264,18 @@ public class BoardController {
 	// 게시글 삭제
 	@RequestMapping(value = "/deleteArticle", method = RequestMethod.GET)
 	public String deleteArticle(@RequestParam int boardNo) {
-		File file = new File(null);
+		//첨부파일 있을 경우 삭제
+		String filePath = "C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\";
+		List<FileVO> fileList = boardDao.getFile(boardNo);
+		for(FileVO savedFile : fileList) {
+			File file = new File(filePath, savedFile.getSavedFileNm());
+			if(file.exists()) {
+				file.delete();
+			}
+		}
 		
+		boardDao.deleteReplyWithBoard(boardNo);
+		boardDao.deleteFile(boardNo);
 		boardDao.deleteArticle(boardNo);
 		return "redirect:/boardMain";
 	}
@@ -336,7 +346,7 @@ private String uploadFile(String originalName, byte[] fileData) throws Exception
          * 
          */
 		ExcelVO excelData = new ExcelVO();
-		SimpleDateFormat transFormat = new SimpleDateFormat();
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		List<String> outputColumns = new ArrayList();
 		

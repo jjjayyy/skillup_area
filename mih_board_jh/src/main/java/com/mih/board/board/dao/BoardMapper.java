@@ -57,6 +57,9 @@ public interface BoardMapper {
 	//댓글 갯수
 	public int getReplyCnt(int boardNo);
 	
+	//글과 함께 댓글 삭제
+	public void deleteReplyWithBoard(int boardNo);
+	
 	//첨부파일 저장
 	public void addFile(FileVO file);
 	
@@ -65,6 +68,9 @@ public interface BoardMapper {
 	
 	//첨부파일 다운로드
 	public List<FileVO> getDownFile(int fileNo);
+	
+	//첨부파일 삭제
+	public void deleteFile(int boardNo);
 	
 	//엑셀 data 저장
 	public void insertExcel(ExcelVO excel);
