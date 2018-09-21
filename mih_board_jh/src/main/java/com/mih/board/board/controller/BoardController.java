@@ -2,17 +2,18 @@ package com.mih.board.board.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.omg.CORBA.portable.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mih.board.board.dao.BoardMapper;
 import com.mih.board.board.vo.BoardVO;
 import com.mih.board.board.vo.CategoryVO;
+import com.mih.board.board.vo.ExcelVO;
 import com.mih.board.board.vo.FileVO;
 import com.mih.board.board.vo.ReplyVO;
+import com.mih.board.util.ExcelRead;
+import com.mih.board.util.ExcelReadOption;
 
 @Controller
 public class BoardController {
@@ -75,7 +79,7 @@ public class BoardController {
 
 		for (MultipartFile file : files) {
 			if (file.getSize() != 0) {
-
+				
 				/*
 				 * logger.info("originalName: " + file.getOriginalFilename());
 				 * logger.info("size: " + file.getSize()); logger.info("contentType: " +
@@ -94,58 +98,40 @@ public class BoardController {
 		return "forward:/boardMain";
 	}
 
-	// 파일 업로드
-	private String uploadFile(String originalName, byte[] fileData) throws Exception {
-		UUID uid = UUID.randomUUID();
-		/*
-		 * 고유한 랜덤 값 생성해서 같은 이름의 파일 입력 방지
-		 */
-		Calendar cal = Calendar.getInstance();
-
-		String savedName = uid.toString() + "_" + cal.get(Calendar.YEAR) + cal.get(Calendar.MONTH)
-				+ cal.get(Calendar.DATE) + "_" + originalName;
-		File target = new File("C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder", savedName);
-		FileCopyUtils.copy(fileData, target);
-		/*
-		 * FileCopyUtils -> 스프링에서 제공하는 util(?)
-		 */
-		return savedName;
-	}
-
-/*	// 파일 다운로드
-	@RequestMapping(value = "/downloadFile")
-	public void downloadFile(FileVO file, HttpServletResponse response) throws Exception {
-		List<FileVO> fileInfoList = boardDao.getDownFile(file.getFileNo());
-		String storedFileName = "";
-		String originalFileName = "";
-		for (FileVO fileInfo : fileInfoList) {
-			storedFileName = fileInfo.getSavedFileNm();
-			originalFileName = fileInfo.getOriginalFileNm();
-		}
-		String filePath = "C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\";
-
-		byte fileByte[] = FileUtils.readFileToByteArray(
-				new File("C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\" + storedFileName));
-
-		response.setContentType("application/octet-stream");
-		response.setContentLength(fileByte.length);
-		response.setHeader("Content-Disposition", "attachment; fileName=\"\";");
-		response.setHeader("Content-Transfer-Encoding", "binary");
-		response.getOutputStream().write(fileByte);
-
-		response.getOutputStream().flush();
-		response.getOutputStream().close();
-
-		
-		 * return new HandlerFile(response, filePath, storedFileName,
-		 * originalFileName).getDownloadFileByte();
-		 
-	}*/
+	/*
+	 * // 파일 다운로드
+	 * 
+	 * @RequestMapping(value = "/downloadFile") public void downloadFile(FileVO
+	 * file, HttpServletResponse response) throws Exception { List<FileVO>
+	 * fileInfoList = boardDao.getDownFile(file.getFileNo()); String storedFileName
+	 * = ""; String originalFileName = ""; for (FileVO fileInfo : fileInfoList) {
+	 * storedFileName = fileInfo.getSavedFileNm(); originalFileName =
+	 * fileInfo.getOriginalFileNm(); } String filePath =
+	 * "C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\";
+	 * 
+	 * byte fileByte[] = FileUtils.readFileToByteArray( new File(
+	 * "C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\" +
+	 * storedFileName));
+	 * 
+	 * response.setContentType("application/octet-stream");
+	 * response.setContentLength(fileByte.length);
+	 * response.setHeader("Content-Disposition", "attachment; fileName=\"\";");
+	 * response.setHeader("Content-Transfer-Encoding", "binary");
+	 * response.getOutputStream().write(fileByte);
+	 * 
+	 * response.getOutputStream().flush(); response.getOutputStream().close();
+	 * 
+	 * 
+	 * return new HandlerFile(response, filePath, storedFileName,
+	 * originalFileName).getDownloadFileByte();
+	 * 
+	 * }
+	 */
 
 	// 파일 다운로드(책 버전)
 	@ResponseBody
-	@RequestMapping(value="/downloadFile")
-	public ResponseEntity<byte[]> displayFile(FileVO file) throws Exception{
+	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(FileVO file) throws Exception {
 		List<FileVO> fileInfoList = boardDao.getDownFile(file.getFileNo());
 		String storedFileName = "";
 		String originalFileName = "";
@@ -153,34 +139,31 @@ public class BoardController {
 			storedFileName = fileInfo.getSavedFileNm();
 			originalFileName = fileInfo.getOriginalFileNm();
 		}
-		
+
 		FileInputStream in = null;
 		ResponseEntity<byte[]> entity = null;
-		
+
 		logger.info("FILE NAME : " + originalFileName);
-		
+
 		try {
 			HttpHeaders headers = new HttpHeaders();
-			
-			
-			in = new FileInputStream("C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\"
-					+ storedFileName);
-			
+
+			in = new FileInputStream(
+					"C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder\\" + storedFileName);
+
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-			headers.add("Content-Disposition", "attachment; filename=\"" +
-					new String(originalFileName.getBytes("UTF-8"), "ISO-8859-1") + "\""); 
-			
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers,
-					HttpStatus.CREATED);
-		} catch(Exception e) {
+			headers.add("Content-Disposition",
+					"attachment; filename=\"" + new String(originalFileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
 		} finally {
 			in.close();
 		}
 		return entity;
-		}
-	
+	}
 
 	// 게시판 메인화면
 	@RequestMapping(value = "/boardMain", method = { RequestMethod.POST, RequestMethod.GET })
@@ -281,6 +264,8 @@ public class BoardController {
 	// 게시글 삭제
 	@RequestMapping(value = "/deleteArticle", method = RequestMethod.GET)
 	public String deleteArticle(@RequestParam int boardNo) {
+		File file = new File(null);
+		
 		boardDao.deleteArticle(boardNo);
 		return "redirect:/boardMain";
 	}
@@ -321,4 +306,79 @@ public class BoardController {
 		List<ReplyVO> replyList = boardDao.getReply(boardNo);
 		return replyList;
 	}
+
+// 파일 업로드
+private String uploadFile(String originalName, byte[] fileData) throws Exception {
+	/*
+	 * 고유한 랜덤 값 생성해서 같은 이름의 파일 입력 방지
+	 */
+	UUID uid = UUID.randomUUID();
+
+	Calendar cal = Calendar.getInstance();
+
+	String savedName = uid.toString() + "_" + cal.get(Calendar.YEAR) + cal.get(Calendar.MONTH)
+			+ cal.get(Calendar.DATE) + "_" + originalName;
+	File target = new File("C:\\Users\\user\\Documents\\workspace-sts-3.9.5.RELEASE\\uploadFolder", savedName);
+	/*
+	 * FileCopyUtils -> 스프링에서 제공하는 util(?)
+	 */
+	FileCopyUtils.copy(fileData, target);
+
+	ExcelReadOption excelReadOption = new ExcelReadOption();
+	
+	String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
+	
+	if(formatName.equalsIgnoreCase("xls") || formatName.equalsIgnoreCase("xlsx")) {
+        /*
+         * cell 이름은 사실상 cell넘버를 String으로 바꿔서 A B C D... 로 지정됨
+         * setOutputColumns.contain()을 통해서 불러올 cell 이름에 있는지 확인
+         * 있으면 Map.put 없으면 건너뜀.
+         * 
+         */
+		ExcelVO excelData = new ExcelVO();
+		SimpleDateFormat transFormat = new SimpleDateFormat();
+		
+		List<String> outputColumns = new ArrayList();
+		
+		for(char column = 'A'; column <= 'Z'; column++) {
+			outputColumns.add(String.valueOf(column));
+		}
+		
+        excelReadOption.setFilePath(target.getAbsolutePath());
+        excelReadOption.setOutputColumns(outputColumns);
+        excelReadOption.setStartRow(2);
+        
+        List<Map<String, String>>excelContent =ExcelRead.read(excelReadOption);
+        
+        for(Map<String, String> info : excelContent){
+
+        	excelData.setRowId((int)Double.parseDouble(info.get("A")));
+        	excelData.setOrderId(info.get("B"));
+        	Date orderDate = transFormat.parse(info.get("C"));
+        	excelData.setOrderDate(orderDate);
+        	Date shipDate = transFormat.parse(info.get("D"));
+        	excelData.setShipDate(shipDate);
+        	excelData.setShipMode(info.get("E"));
+        	excelData.setCustomerId(info.get("F"));
+        	excelData.setCustomerName(info.get("G"));
+        	excelData.setSegment(info.get("H"));
+        	excelData.setCountry(info.get("I"));
+        	excelData.setCity(info.get("J"));
+        	excelData.setState(info.get("K"));
+        	excelData.setPostalCode((int)Double.parseDouble(info.get("L")));
+        	excelData.setRegion(info.get("M"));
+        	excelData.setProductId(info.get("N"));
+        	excelData.setCategory(info.get("O"));
+        	excelData.setSubCategory(info.get("P"));
+        	excelData.setProductName(info.get("Q"));
+        	excelData.setSales(Double.parseDouble(info.get("R")));
+        	excelData.setQuantity((int)Double.parseDouble(info.get("S")));
+        	excelData.setDiscount(Double.parseDouble(info.get("T")));
+        	excelData.setProfit(Double.parseDouble(info.get("U")));
+
+        	boardDao.insertExcel(excelData);
+        }
+	}
+	return savedName;
+}
 }

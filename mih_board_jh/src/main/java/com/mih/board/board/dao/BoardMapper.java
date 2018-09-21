@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mih.board.board.vo.BoardVO;
 import com.mih.board.board.vo.CategoryVO;
+import com.mih.board.board.vo.ExcelVO;
 import com.mih.board.board.vo.FileVO;
 import com.mih.board.board.vo.ReplyVO;
 
@@ -64,4 +65,7 @@ public interface BoardMapper {
 	
 	//첨부파일 다운로드
 	public List<FileVO> getDownFile(int fileNo);
+	
+	//엑셀 data 저장
+	public void insertExcel(ExcelVO excel);
 }

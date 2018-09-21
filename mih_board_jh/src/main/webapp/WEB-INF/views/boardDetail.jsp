@@ -52,7 +52,7 @@
 
 					<c:forEach items="${boardDetail}" var="boardDetail">
 						<c:if test="${sessionScope.userNo==boardDetail.userNo}">
-							<button type="submit" class="btn btn-outline btn-primary"com
+							<button type="submit" class="btn btn-outline btn-primary"
 								onclick="location.href='/editForm?boardNo=${param.boardNo}'">Edit</button>
 							<button type="button" class="btn btn-outline btn-primary"
 								onclick="location.href='/deleteArticle?boardNo=${param.boardNo}'">Delete</button>
@@ -67,25 +67,6 @@
 		<jsp:include page="/WEB-INF/tiles/layout/footer.jsp"></jsp:include>
 		<script src="/resources/js/reply.js"></script>
 		
-<!-- 		<script>
-			$(document).ready(function(){
-				$("a[name='file']").on("click", function(e){
-					e.preventDefault();
-					downloadFile($(this));
-				})
-			})
-		
-			function downloadFile(obj){
-				var fileNo = obj.parent().find("#fileNo").val();
-				$.ajax({
-					url:"/downloadFile",
-					type:"POST",
-					data:{"fileNo":fileNo},
-					success:function(data){
-						data;
-					}
-				})
-			}
-		</script> -->
+ 
 </body>
 </html>
