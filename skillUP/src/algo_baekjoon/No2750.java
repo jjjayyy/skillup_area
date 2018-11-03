@@ -14,7 +14,7 @@ import java.util.Arrays;
  * @author JH
  *
  */
-public class no2750 {
+public class No2750 {
 	public static void main(String[] args) throws IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
