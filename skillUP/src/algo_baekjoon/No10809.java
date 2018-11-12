@@ -11,21 +11,28 @@ public class No10809 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String s = br.readLine();
 		String[] alphabets = s.split("");
-		
-		for(char c = 'a'; c <= 'z'; c++) {
-			for(int i=0; i<alphabets.length; i++) {
+		boolean hasAlphabet;
+
+		for (char c = 'a'; c <= 'z'; c++) {
+			hasAlphabet = false;
 			
-				if(alphabets[i].equals(c)) {
+			for (int i = 0; i < alphabets.length; i++) {
+				if (String.valueOf(c).equals(alphabets[i])) {
 					System.out.print(i);
+					hasAlphabet = true;
+					break;
 				} else {
-					System.out.print(-1);
-				}
-				
-				if(i < alphabets.length-1) {
-					System.out.print(" ");
+					continue;
 				}
 			}
+			
+			if(!hasAlphabet) {
+				System.out.print(-1);
+			}
+			if(c != 'z') {
+				System.out.print(" ");
+			}
+			
 		}
-		
 	}
 }
