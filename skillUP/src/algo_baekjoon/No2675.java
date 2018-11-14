@@ -13,18 +13,17 @@ public class No2675 {
 		int T = Integer.parseInt(br.readLine());
 		String[] st = new String[T];
 		
-		
 		for(int i=0; i<T; i++) {
 			st[i] = br.readLine();
-			int cnt = st[i].charAt(0) - '0';
+			int repeatCnt = st[i].charAt(0) - '0';
+			int stCnt = st[i].length();
 			
-			st[i].split("");
-			
-			for(int j=0; j<cnt; j++) {
-				
+			for(int j=2; j<stCnt; j++) {
+				for(int k=0; k<repeatCnt; k++) {
+					System.out.print(st[i].charAt(j));
+				}
 			}
-			
+			System.out.println();
 		}
-		
 	}
 }
