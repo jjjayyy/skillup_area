@@ -13,16 +13,25 @@ public class No2775 {
 			int k = Integer.parseInt(br.readLine());
 			int n = Integer.parseInt(br.readLine());
 			
+			int[] people = new int[n];
+			int cnt = 0;
+			int resident = 0;
 			
-			int people = 0;
-			
-			for(int m = 0; m <= k-1; m++) {
-				for(int j = 1; j <= n; j++) {
-					people += j;
-					
+			while(cnt < k) {	
+				for(int j = 0; j < n; j++) {					
+					if(cnt == 0) {
+						people[j] = j + 1;
+					} else {
+						if(j != 0) {people[j] += people[j-1];}
+					}
 				}
+			cnt++;
 			}
-			System.out.println(people);
+			
+			for(int m = 0; m < n; m++) {
+				resident += people[m];
+			}
+			System.out.println(resident);
 		}
 	}
 }
