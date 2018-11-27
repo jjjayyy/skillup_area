@@ -14,6 +14,7 @@ public class Main {
 				);
 		
 		double avg = list.stream()
+				.filter(score -> score.getScore() >= 30)
 				.mapToInt(Student :: getScore)
 				.average()
 				.getAsDouble();
