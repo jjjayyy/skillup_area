@@ -16,27 +16,39 @@ import java.util.Arrays;
  */
 public class No2750 {
 	public static void main(String[] args) throws IOException {
-		
+	
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
 		int N = Integer.parseInt(br.readLine());
 		
 		int[] numbers = new int[N];
 		
-		
 		for(int i = 0; i < N; i++) {
 			numbers[i] = Integer.parseInt(br.readLine());
 		}
 		
-		Arrays.sort(numbers);
+		int[] sortedNum = new int[N];
 		
-//		System.out.println(Arrays.toString(numbers));
-		for(int num : numbers) {
-			bw.write(Integer.toString(num) + "\n");
-			
+		sortedNum[0] = numbers[0];
+		for(int i=0; i<N; i++) {
+			if(i < N-1) {	
+				if(numbers[i+1] < sortedNum[i]) {
+					sortedNum[i+1] = sortedNum[i];
+					sortedNum[i] = numbers[i+1];
+					while(sortedNum[i] < sortedNum[i-1]) {
+					}
+
+				} else {
+					sortedNum[i+1] = numbers[i+1];
+				}
+			} else {
+				
+			}
 		}
-		bw.flush();
-		bw.close();
+		
+		
+		
+
+
 	}
 }
