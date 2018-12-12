@@ -9,11 +9,12 @@ import java.util.stream.IntStream;
 /**
  * N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로그램을 작성하시오.
  * 첫째줄 수의 개수
+ * Bubble Sort
  * 
  * @author JH
  *
  */
-public class No2750 {
+public class No2750_BubbleSort {
 	public static void main(String[] args) throws IOException {
 	
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
