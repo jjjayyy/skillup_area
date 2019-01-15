@@ -1,10 +1,10 @@
 package algo_baekjoon;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class No10828 {
 	/*
@@ -16,57 +16,59 @@ public class No10828 {
 	 */
 
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
+		Stack stack = new Stack();
+		
 		int N = Integer.parseInt(br.readLine());
-		String[] order = new String[N];
-		int printNum = 0;
-
-		for(int i = 0; i < N; i++) {
-			order[i] = br.readLine();
+		for(int i=0; i<N; i++) {
+						
+			String tempArr[] = br.readLine().split("\\s");
+			
+			switch (tempArr[0]) {
+				case "push" : stack.push(Integer.parseInt(tempArr[1])); break;
+				case "pop" : stack.pop(); break;
+				case "size" : stack.size(); break;
+				case "empty" : stack.empty(); break;
+				case "top" : stack.top(); break;
+			}
 		}
-
-		bw.write(Integer.toString(printNum));
-		bw.flush();
-		bw.close();
 	}
+	
+}
 
-	int cnt = 0;
-	int[] stack = null;
-
-	public void push(int stackElem) {
-		stack = new int[top()];
-			stack[cnt] = stackElem;
-			cnt++;
+class Stack {
+	
+	private List<Integer> stack = new ArrayList<>();
+	private int size = 0;
+	
+	public void push(int x) {
+		stack.add(x);
+		size++;
 	}
-
-	public int pop() {
-		if(empty() == 1) {
-			return -1;
+	
+	public void pop() {
+		if(size == 0) {
+			System.out.println(-1);
+		} else {
+			System.out.println(stack.get(size-1));
+			stack.remove(size-1);
+			size--;
 		}
-		int num = stack[stack.length - 1];
-		stack[stack.length-1] = 0;
-		return num;
 	}
-
-	public int size() {
-		return stack.length;
+	
+	public void size() {
+		System.out.println(size);
 	}
-
-	public int empty() {
-		if(stack.length==0) {
-			return 1;
-		}
-		return 0;
+	
+	public void empty() {
+		int empty = size == 0 ? 1 : 0;
+		System.out.println(empty);
 	}
-
-	public int top() {
-		if(empty() == 1) {
-			return -1;
-		}
-		return stack[stack.length - 1];
+	
+	public void top() { 
+		int top = size == 0 ? -1 : stack.get(size-1);
+		System.out.println(top);
 	}
 
 }
