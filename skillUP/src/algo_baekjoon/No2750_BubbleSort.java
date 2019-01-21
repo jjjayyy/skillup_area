@@ -16,10 +16,10 @@ import java.util.stream.IntStream;
  */
 public class No2750_BubbleSort {
 	public static void main(String[] args) throws IOException {
-	
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-		int[] numArr = new int[N]; 
+		int[] numArr = new int[N];
 
 		IntStream stream = Arrays.stream(numArr);
 
