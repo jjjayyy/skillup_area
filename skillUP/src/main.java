@@ -5,6 +5,7 @@ public class main {
         int[] ann = {};
         ann[0] = 2;
         //test1
+        //test2
         System.out.println(ann.length);
     }
 }
