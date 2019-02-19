@@ -4,7 +4,7 @@ public class main {
         //issue1
         int[] ann = {};
         ann[0] = 2;
-
+        //test1
         System.out.println(ann.length);
     }
 }
