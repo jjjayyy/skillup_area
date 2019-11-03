@@ -35,7 +35,7 @@ public class main {
             os.write(input, 0, input.length);
         }
 
-        //Responsw data 받는 부분 d
+        //Responsw data 받는 부분
         try(BufferedReader br = new BufferedReader(
                 new InputStreamReader(con.getInputStream(), "utf-8"))) {
             StringBuilder response = new StringBuilder();
