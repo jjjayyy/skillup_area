@@ -8,29 +8,31 @@ import java.util.stream.IntStream;
 public class Heap_Hotter {
 
     public static void main(String[] args) {
-
+        int[] scoville = {1,2,3,9,10,12};
+        System.out.println(solution(scoville,7));
     }
 
-    public int solution(int[] scoville, int K) {
+    public static int solution(int[] scoville, int K) {
         int answer = 0;
-
         int mixedFood = 0;
         List<Integer> scovilleList = IntStream.of(scoville).boxed().collect(Collectors.toList());
 
         while(mixedFood < K) {
-            int firstMileFood = Collections.min(scovilleList);
-            scovilleList.remove(firstMileFood);
-            int secondMileFood = Collections.min(scovilleList);
-            scovilleList.remove(secondMileFood);
+            int firstMildFood = mildScoville(scovilleList);
+            int secondMildFood = mildScoville(scovilleList);
 
-            mixedFood = firstMileFood + (secondMileFood * 2);
+            mixedFood = firstMildFood + (secondMildFood * 2);
+
+            scovilleList.add(mixedFood);
             answer++;
         }
 
         return answer;
     }
 
-    private int mildFood(List<Integer> scovilleList) {
-        return
+    private static int mildScoville(List<Integer> scovilleList) {
+        int scoville = Collections.min(scovilleList);
+        scovilleList.remove((Integer)scoville);
+        return scoville;
     }
 }
