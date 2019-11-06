@@ -2,8 +2,7 @@ package algo_programmers;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.PriorityQueue;
 
 public class Heap_Hotter {
 
@@ -14,16 +13,22 @@ public class Heap_Hotter {
 
     public static int solution(int[] scoville, int K) {
         int answer = 0;
-        int mixedFood = 0;
-        List<Integer> scovilleList = IntStream.of(scoville).boxed().collect(Collectors.toList());
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-        while(mixedFood < K) {
-            int firstMildFood = mildScoville(scovilleList);
-            int secondMildFood = mildScoville(scovilleList);
+        for(int scov : scoville) {
+            pq.offer(scov);
+        }
 
-            mixedFood = firstMildFood + (secondMildFood * 2);
+        while(pq.peek() <= K) {
+            if(pq.size() == 1) {
+                return -1;
+            }
+            int first = pq.poll();
+            int second = pq.poll();
 
-            scovilleList.add(mixedFood);
+            int result = first + (second * 2);
+
+            pq.offer(result);
             answer++;
         }
 
