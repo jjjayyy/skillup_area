@@ -18,7 +18,7 @@ public class Heap_Hotter {
         for(int scov : scoville) {
             pq.offer(scov);
         }
-        pq.forEach((value) -> System.out.println(value));
+        //pq.forEach((value) -> System.out.println(value));
 
         while(pq.peek() <= K) {
             if(pq.size() == 1) {
