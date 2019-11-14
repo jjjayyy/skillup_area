@@ -21,8 +21,6 @@ public class Heap_Hotter {
         heapList.add(3);
         heapList.add(6);
 
-
-
         //then
         assertThat(3, is(changeHeap(0, 2).get(0)));
 
