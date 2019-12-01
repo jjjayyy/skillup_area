@@ -16,7 +16,7 @@ public class Printer {
     public static int solution(int[] priorities, int location) {
 
         int answer = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>(priorities.length, Collections.reverseOrder());
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
 
         for(int priority : priorities) {
             pq.offer(priority);
