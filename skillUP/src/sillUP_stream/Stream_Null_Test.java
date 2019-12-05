@@ -1,4 +1,4 @@
-package skillUP_stream;
+package sillUP_stream;
 
 import java.util.Arrays;
 import java.util.Optional;
