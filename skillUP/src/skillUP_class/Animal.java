@@ -21,6 +21,6 @@ public class Animal {
 				.age(2)
 				.sex("M")
 				.build();
-		System.out.println(tiger.getSex());
+		System.out.println(tiger.getSex() + " :: " + tiger.getName());
 	}
 }
