@@ -10,12 +10,12 @@ public class main {
 
     public static void main(String[] args) throws Exception {
         sendPostJson();
-        sendGetJson();
+        //sendGetJson();
     }
 
     public static void sendPostJson() throws Exception {
         //JSON 데이터 받을 URL 객체 생성
-        URL url = new URL ("www.google.com");
+        URL url = new URL ("https://webhook.site/0cad36be-fbfc-4727-bf05-79dde0c6a1a1");
         //HttpURLConnection 객체를 생성해 openConnection 메소드로 url 연결
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         //전송 방식 (POST)
@@ -48,7 +48,7 @@ public class main {
     }
 
     public static void sendGetJson() throws Exception {
-        URL url = new URL ("www.google.com");
+        URL url = new URL ("https://webhook.site/0cad36be-fbfc-4727-bf05-79dde0c6a1a1");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json; utf-8");
