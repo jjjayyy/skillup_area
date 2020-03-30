@@ -67,6 +67,16 @@ public class Test4 {
         return listHead;
     }
 
+    public static SinglyLinkedListNode tempTest(SinglyLinkedListNode listHead) {
+
+        SinglyLinkedListNode temp = listHead;
+
+        temp.next = temp.next.next.next;
+
+        return listHead;
+
+    }
+
     public static void main(String[] args) {
 
         SinglyLinkedList sl = new SinglyLinkedList();
@@ -76,7 +86,8 @@ public class Test4 {
         sl.insertNode(3);
         sl.insertNode(4);
 
-        deleteOdd(sl.head);
+        //deleteOdd(sl.head);
+        tempTest(sl.head);
 
         System.out.println(sl);
 
