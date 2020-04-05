@@ -41,9 +41,7 @@ public class Failure_Rate {
         List<Integer> result = new ArrayList<>();
         result.addAll(map.keySet());
         Collections.sort(result, (Comparator) (o1, o2) -> {
-            Object v1 = map.get(o1);
-            Object v2 = map.get(o2);
-            return ((Comparable) v2).compareTo(v1);
+            return ((Comparable) map.get(o2)).compareTo(map.get(o1));
         });
         return result;
     }
