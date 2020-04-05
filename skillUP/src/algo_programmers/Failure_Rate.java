@@ -1,31 +1,60 @@
 package algo_programmers;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Failure_Rate {
 
     public static  int[] solution(int N, int[] stages) {
-        int[] answer = {};
 
-        Arrays.sort(stages);
+        Map<Integer, Integer> notClearNum = new HashMap<>();
+        Map<Integer, Double> failureRate = new HashMap<>();
 
-        for(int i = 0; i < stages.length; i++) {
-
-            if(i != 0 && stages[i] != stages[i-1]) {
-                stages[i-1]
-
-                stages[i]
-            }
-            stages[i]
+        //stage별 못 클리어한 사람 수 구분
+        for(int stage : stages) {
+            int cnt = notClearNum.containsKey(stage) ? notClearNum.get(stage) + 1 : 1;
+            notClearNum.put(stage, cnt);
         }
 
-        return stages;
+        //stage별 실패율
+        int totalNum = stages.length;
+        for(int i = 1; i <= N; i++) {
+            if(notClearNum.containsKey(i)) {
+                int cnt = notClearNum.get(i);
+                failureRate.put(i, (double) cnt / totalNum);
+                totalNum -= cnt;
+            } else {
+                failureRate.put(i, 0.0);
+            }
+        }
+
+        List<Integer> result = sort(failureRate);
+        int[] answer = new int[result.size()];
+
+        for(int i = 0; i < result.size(); i++) {
+            answer[i] = result.get(i);
+        }
+
+        return answer;
+    }
+
+    public static List<Integer> sort(Map<Integer, Double> map) {
+        List<Integer> result = new ArrayList<>();
+        result.addAll(map.keySet());
+        Collections.sort(result, (Comparator) (o1, o2) -> {
+            Object v1 = map.get(o1);
+            Object v2 = map.get(o2);
+            return ((Comparable) v2).compareTo(v1);
+        });
+        return result;
     }
 
     public static void main(String[] args) {
 
+
         int[] arr = {2, 1, 2, 6, 2, 4, 3, 3};
-        System.out.println(solution(3, arr));
+        for(int a : solution(5, arr)) {
+            System.out.println(a);
+        }
     }
 
 }
