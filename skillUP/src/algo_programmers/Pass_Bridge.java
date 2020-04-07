@@ -7,72 +7,45 @@ public class Pass_Bridge {
 
     public static int solution(int bridge_length, int weight, int[] truck_weights) {
 
-        int onTheBridge = 0;
-        int remainLength = 0;
-        int sec = 0;
-
-        ////////////////////////
-
         Queue<Integer> bridgeQ = new LinkedList<>();
         int idx = 0;
         int answer = 0;
+        int remainLength = bridge_length;
+        int remainWeight = weight;
 
         while(idx < truck_weights.length) {
             answer++;
             int curTruck = truck_weights[idx];
 
-            if()
-        }
-
-
-
-
-
-        /////////////////////////
-
-
-
-
-        int truckSec = 0;
-        int tempTruck = 0;
-
-
-
-
-        Queue<Integer> queue = new LinkedList<>();
-
-        for(int truck : truck_weights) {
-            queue.offer(truck);
-        }
-
-        while(!queue.isEmpty()) {
-
-            boolean weightChk = true;
-
-            if(onTheBridge > 0) {
-                if(onTheBridge + queue.peek() > weight) {
-                    weightChk = false;
-                    sec += bridge_length - truckSec;
-                    onTheBridge -= tempTruck;
-                    tempTruck = 0;
-                    truckSec = 0;
-                }
+            if(!bridgeQ.isEmpty() && remainWeight < curTruck) {
+                answer += remainLength;
+                remainWeight += bridgeQ.poll();
             }
-            if(weightChk) {
-                tempTruck = queue.poll();
-                onTheBridge += tempTruck;
+
+            if(remainWeight == weight) {
+                remainLength = bridge_length;
             }
-            truckSec++;
-            sec++;
+
+            if(remainWeight >= curTruck) {
+                remainLength -= 1;
+                bridgeQ.offer(curTruck);
+                remainWeight -= curTruck;
+                idx++;
+            }
+
+            if(idx == truck_weights.length) {
+                answer += bridge_length;
+            }
+
         }
-        sec += bridge_length;
-        return sec;
+
+        return answer;
     }
 
     public static void main(String[] args) {
-        int[] truckArr = {1, 1, 1, 1, 1, 2, 2};
+        int[] truckArr = {7, 4, 5, 6};
 
-        System.out.println(solution(5, 5, truckArr));
+        System.out.println(solution(2, 10, truckArr));
     }
 
 }
