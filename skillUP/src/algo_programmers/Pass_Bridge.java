@@ -7,39 +7,32 @@ public class Pass_Bridge {
 
     public static int solution(int bridge_length, int weight, int[] truck_weights) {
 
-        Queue<Integer> bridgeQ = new LinkedList<>();
+        Queue<Integer> truckTime = new LinkedList<>();
         int idx = 0;
         int answer = 0;
-        int remainLength = bridge_length;
-        int remainWeight = weight;
+        int remainWeight = 0;
 
         while(idx < truck_weights.length) {
             answer++;
             int curTruck = truck_weights[idx];
 
-            if(!bridgeQ.isEmpty() && remainWeight < curTruck) {
-                answer += remainLength;
-                remainWeight += bridgeQ.poll();
-            }
-
-            if(remainWeight == weight) {
-                remainLength = bridge_length;
-            }
-
-            if(remainWeight >= curTruck) {
-                remainLength -= 1;
-                bridgeQ.offer(curTruck);
-                remainWeight -= curTruck;
+            if(remainWeight + curTruck <= weight) {
                 idx++;
+                remainWeight += curTruck;
+                truckTime.offer(0);
             }
 
-            if(idx == truck_weights.length) {
-                answer += bridge_length;
+            for(int i = 0; i < truckTime.size(); i++) {
+                truckTime.offer(truckTime.poll() + 1);
             }
 
+            if(truckTime.peek() == bridge_length) {
+                remainWeight -= truck_weights[idx - truckTime.size()];
+                truckTime.poll();
+            }
         }
 
-        return answer;
+        return answer += bridge_length;
     }
 
     public static void main(String[] args) {
