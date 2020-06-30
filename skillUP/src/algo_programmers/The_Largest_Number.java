@@ -1,5 +1,7 @@
 package algo_programmers;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,7 +17,7 @@ public class The_Largest_Number {
     }
 
     public static void main(String[] args) {
-        int[] reco = {5, 6, 10, 13, 14, 20, 21, 22, 23, 25, 36, 37, 40, 45};
+        int[] reco = {4, 17, 20, 21, 23, 24};
 
         ArrayList<Integer> numList = new ArrayList<>();
         List<Integer> recoList = Arrays.stream(reco).boxed().collect(Collectors.toList());
@@ -26,17 +28,26 @@ public class The_Largest_Number {
             }
         }
 
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 3; i++) {
             Collections.shuffle(numList);
             System.out.println(numList.get(0));
             numList.remove(0);
         }
         System.out.println("=========== Recommand===========");
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 3; i++) {
             Collections.shuffle(recoList);
             System.out.println(recoList.get(0));
             recoList.remove(0);
         }
+
+        System.out.println("=========== test ===========");
+        String str = "2009-12-02T11:25:25.350";
+        String[] strArr = str.split("T");
+        System.out.println(strArr[0].replace("-",""));
+
+        LocalDateTime dateTime = LocalDateTime.parse(str);
+        String date = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        System.out.println(date);
 
     }
 
