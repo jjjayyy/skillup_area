@@ -7,7 +7,6 @@ public class No10162 {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int second = Integer.parseInt(br.readLine());
-
         int[] buttonArr = {300, 60, 10};
         StringBuilder builder = new StringBuilder();
 
