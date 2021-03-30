@@ -2,37 +2,41 @@ package algo_baekjoon;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class No1931 {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
-        List<String> list = new ArrayList<>();
-        List<String> result = new ArrayList<>();
-        List<String> temp = new ArrayList<>();
+        int[][] arr = new int[n][2];
 
         for(int i = 0; i < n; i++) {
-            list.add(br.readLine());
+            String[] str = br.readLine().split(" ");
+            arr[i][0] = Integer.parseInt(str[0]);
+            arr[i][1] = Integer.parseInt(str[1]);
         }
 
-        Collections.sort(list, (a,b) -> Integer.parseInt(a.split(" ")[1]) - Integer.parseInt(b.split(" ")[1]));
-        result.add(list.get(0));
-        list.remove(0);
-
-        for(String item : list) {
-            for(String resultItem : result) {
-                int start = Integer.parseInt(item.split(" ")[0]);
-                int resultEnd = Integer.parseInt(resultItem.split(" ")[1]);
-
-                if(start >= resultEnd) {
-                    result.add(item);
+        Arrays.sort(arr, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[1] == o2[1]) {
+                    return o1[0] - o2[0];
                 }
+                return o1[1] - o2[1];
+            }
+        });
+
+        int tempEnd = 0;
+        int cnt = 0;
+
+        for(int i = 0; i < arr.length; i++) {
+            if(arr[i][0] >= tempEnd) {
+                tempEnd = arr[i][1];
+                cnt++;
             }
         }
-        System.out.println(result.size());
+        System.out.println(cnt);
     }
 }
