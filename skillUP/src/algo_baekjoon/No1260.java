@@ -2,6 +2,7 @@ package algo_baekjoon;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Queue;
 import java.util.*;
 
 public class No1260 {
