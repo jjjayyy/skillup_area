@@ -8,19 +8,17 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
-        int firstTemp = 0;
-        int secondTemp = 1;
-
-        for(int i = 0; i < n; i++) {
-            int
-            fibonacci(firstTemp,secondTemp);
-        }
-
-
-
+        System.out.println(fibonacci(0,1, 2, 20));
     }
 
-    static int fibonacci(int first, int second) {
-        return first + second;
+    static int fibonacci(int first, int second, int cnt, int n) {
+        if(n == 0 || n == 1) {
+            return n;
+        }
+
+        if(n == cnt) {
+            return first + second;
+        }
+        return fibonacci(second, first+second, ++cnt, n);
     }
 }
