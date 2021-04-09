@@ -41,7 +41,6 @@ public class Island_Connection {
         } else {
             return  getParent(parents, parents[child]);
         }
-
     }
 
 }
