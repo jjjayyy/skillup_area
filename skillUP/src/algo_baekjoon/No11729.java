@@ -18,6 +18,7 @@ public class No11729 {
         System.out.println(builder.toString());
     }
 
+
     static void hanoi(int n, int from, int stopover, int to) {
         if(n == 1) {
             builder.append(from).append(" ").append(to).append("\n");
