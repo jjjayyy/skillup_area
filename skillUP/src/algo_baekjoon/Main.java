@@ -6,13 +6,17 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        int N = Integer.parseInt(br.readLine());
 
-        int answer = 1;
+        int cnt = 0;
+        int num = 0;
 
-        for(int i = n; i > 0; i--) {
-            answer *= i;
+        while(N != cnt) {
+            num++;
+            if(String.valueOf(num).contains("666")) {
+                cnt++;
+            }
         }
-        System.out.println(answer);
+        System.out.println(num);
     }
 }
