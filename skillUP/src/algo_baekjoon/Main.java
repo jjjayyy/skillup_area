@@ -8,11 +8,13 @@ public class Main {
     static int[] arr;
     static  StringBuilder builder;
 
+
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] temp = br.readLine().split(" ");
         int N = Integer.parseInt(temp[0]);
         int M = Integer.parseInt(temp[1]);
+
 
         visited = new boolean[N];
         arr = new int[M];
@@ -23,6 +25,7 @@ public class Main {
     }
 
     static void dfs(int N, int M, int depth, int index) {
+
         if(M == depth) {
             for(int num : arr) {
                 builder.append(num).append(" ");
