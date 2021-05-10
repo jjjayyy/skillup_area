@@ -4,51 +4,32 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class No1003 {
-    static int zeroCnt = 0;
-    static int oneCnt = 0;
-    static String[] dp;
+    static Integer[][] dp;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
-        int[] caseArr = new int[T];
-        int maxCase = Integer.MIN_VALUE;
-
         StringBuilder builder = new StringBuilder();
-
+        dp = new Integer[41][2];
+        dp[0][0] = 1;
+        dp[0][1] = 0;
+        dp[1][0] = 0;
+        dp[1][1] = 1;
 
         for(int i = 0; i < T; i++) {
-            caseArr[i] = Integer.parseInt(br.readLine());
-            maxCase = Math.max(maxCase, caseArr[i]);
+            int temp = Integer.parseInt(br.readLine());
+            fibonacci(temp);
+            builder.append(dp[temp][0]).append(" ")
+                    .append(dp[temp][1]).append("\n");
         }
-        dp = new String[maxCase];
-        fibonacci(maxCase);
-
-
-
-        zeroCnt = 0;
-        oneCnt = 0;
-
-        int testCase = Integer.parseInt(br.readLine());
-        fibonacci(testCase);
-        builder.append(zeroCnt)
-                .append(" ")
-                .append(oneCnt)
-                .append("\n");
         System.out.println(builder.toString());
     }
 
-    static int fibonacci(int n) {
-        if(n == 0) {
-            zeroCnt++;
-            return 0;
-        } else if (n == 1) {
-            oneCnt++;
-            return 1;
-        } else {
-            int result = fibonacci(n-1) + fibonacci(n-2);
-            dp[n] =
-            return result
+    static Integer[] fibonacci(int n) {
+        if(dp[n][0] == null || dp[n][1] == null) {
+            dp[n][0] = fibonacci(n-1)[0]+fibonacci(n-2)[0];
+            dp[n][1] = fibonacci(n-1)[1]+fibonacci(n-2)[1];
         }
+        return dp[n];
     }
 }
