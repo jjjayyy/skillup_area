@@ -9,9 +9,10 @@ public class KAKAO_2021_Menu_Renewal {
     private static StringBuilder builder = new StringBuilder();
     private static Map<String,Integer> map = new HashMap<>();
     static List<Integer> courseList = new ArrayList<>();
+    static Map<Integer, Integer> cntMap = new HashMap<>();
 
     public static void main(String[] args) {
-        String[] orders = {"XYZ", "XWY", "WXA"};
+        String[] orders = {"ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"};
         int[] course = {2,3,4};
         String[] answer = solution(orders, course);
         for(String ans : answer) {
@@ -32,7 +33,9 @@ public class KAKAO_2021_Menu_Renewal {
 
         for(String key : map.keySet()) {
             if(map.get(key) > 1) {
-                answerList.add(key);
+                if(cntMap.get(key.length()) == map.get(key)) {
+                    answerList.add(key);
+                }
             }
         }
         return answerList.stream().sorted().toArray(String[]::new);
@@ -46,11 +49,9 @@ public class KAKAO_2021_Menu_Renewal {
 
         if(courseList.contains(builder.length())) {
             String temp = builder.toString();
-            if(map.containsKey(temp)) {
-                map.put(temp, map.get(temp) + 1);
-            } else {
-                map.put(temp, 1);
-            }
+            int cnt = map.getOrDefault(temp, 0) + 1;
+            map.put(temp, cnt);
+            cntMap.put(builder.length(),Math.max(cntMap.getOrDefault(builder.length(),0), cnt));
         }
 
         for(int i = index; i < order.length(); i++) {
