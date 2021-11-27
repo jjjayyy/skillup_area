@@ -80,7 +80,7 @@ public class KAKAO2018_NEWS {
         return (int) (intersection.doubleValue() / union.doubleValue() * MULTIPLIER);
     }
 
-    private Map<String, Long> group(String word) {
+        private Map<String, Long> group(String word) {
         return IntStream.range(0, word.length() - 1)
                 .mapToObj(index -> word.substring(index, index + 2))
                 .filter(text -> text.chars().allMatch(character -> Character.isAlphabetic((char) character)))
