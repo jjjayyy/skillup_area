@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class KAKAO2018_NEWS {
+public class KAKAO_2018_NEWS {
 
     public static void main(String[] args) {
 

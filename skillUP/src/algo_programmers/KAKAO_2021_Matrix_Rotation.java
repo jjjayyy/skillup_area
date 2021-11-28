@@ -1,6 +1,6 @@
 package algo_programmers;
 
-public class Matrix_Rotation {
+public class KAKAO_2021_Matrix_Rotation {
 
     static private int matrix[][];
 
