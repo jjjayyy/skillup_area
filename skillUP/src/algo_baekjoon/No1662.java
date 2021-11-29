@@ -11,51 +11,25 @@ public class No1662 {
 
         String S = br.readLine();
 
-        Stack<String> stack = new Stack<>();
-        StringBuilder builder = new StringBuilder();
+        Stack<Integer> stackByLen = new Stack<>();
+        Stack<Integer> stackByMul = new Stack<>();
 
         int length = 0;
-        int tempLength = 0;
-        int cnt = 0;
-
         for(int i = 0; i < S.length(); i++) {
             if(S.charAt(i) == '(') {
-                stack.push(builder.toString());
-                builder.setLength(0);
-                cnt++;
+                length--;
+                stackByMul.push(S.charAt(i-1) - '0');
+                stackByLen.push(length);
+                length = 0;
                 continue;
             }
 
             if(S.charAt(i) == ')') {
-                cnt--;
-                if(builder.length() > 0) {
-                    tempLength += builder.length();
-
-                    builder.setLength(0);
-                    continue;
-                }
-                if(cnt == 0) {
-                    length += tempLength;
-                    tempLength = 0;
-                }
-
-                String temp = stack.pop();
-                if(temp.length() > 0)
-                length = length * (temp.charAt(temp.length()-1) - '0') + temp.length()-1;
+                length = stackByMul.pop() * length + stackByLen.pop();
                 continue;
             }
-            builder.append(S.charAt(i));
+            length++;
         }
-
-        if(!stack.isEmpty()) {
-            String temp = stack.pop();
-            length = length * (temp.charAt(temp.length()-1) - '0') + temp.length()-1;
-        }
-
-        if(builder.length() > 0) {
-            length += builder.length();
-        }
-
         System.out.println(length);
     }
 }
