@@ -12,6 +12,7 @@ public class KKO_T1 {
     public static int solution(String s, String keypad) {
           Map<Character, Integer> rowMap = new HashMap<>();
           Map<Character, Integer> colMap = new HashMap<>();
+          Map<Character, int[]> arrMap = new HashMap<>();
 
           int rowIdx = -1;
           for(int i = 0; i < keypad.length(); i++) {
