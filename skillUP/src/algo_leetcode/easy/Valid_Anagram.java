@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Valid_Anagram {
     public static void main(String[] args) {
         System.out.println(isAnagram("nagaram", "anagram"));
+
     }
 
     public static boolean isAnagram(String s, String t) {
