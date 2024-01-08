@@ -1,8 +1,8 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class main {
 
-    static List<String> parenthesisList = new ArrayList<>();
     public static void main(String[] args) {
 //        int[] g = {262,437,433,102,438,346,131,160,281,34,219,373,466,275,51,118,209,32,108,57,385,514,439,73,271,442,366,515,284,425,491,466,322,34,484,231,450,355,106,279,496,312,96,461,446,422,143,98,444,461,142,234,416,45,271,344,446,364,216,16,431,370,120,463,377,106,113,406,406,481,304,41,2,174,81,220,158,104,119,95,479,323,145,205,218,482,345,324,253,368,214,379,343,375,134,145,268,56,206};
 //        int[] s = {149,79,388,251,417,82,233,377,95,309,418,400,501,349,348,400,461,495,104,330,155,483,334,436,512,232,511,40,343,334,307,56,164,276,399,337,59,440,3,458,417,291,354,419,516,4,370,106,469,254,274,163,345,513,130,292,330,198,142,95,18,295,126,131,339,171,347,199,244,428,383,43,315,353,91,289,466,178,425,112,420,85,159,360,241,300,295,285,310,76,69,297,155,416,333,416,226,262,63,445,77,151,368,406,171,13,198,30,446,142,329,245,505,238,352,113,485,296,337,507,91,437,366,511,414,46,78,399,283,106,202,494,380,479,522,479,438,21,130,293,422,440,71,321,446,358,39,447,427,6,33,429,324,76,396,444,519,159,45,403,243,251,373,251,23,140,7,356,194,499,276,251,311,10,147,30,276,430,151,519,36,354,162,451,524,312,447,77,170,428,23,283,249,466,39,58,424,68,481,2,173,179,382,334,430,84,151,293,95,522,358,505,63,524,143,119,325,401,6,361,284,418,169,256,221,330,23,72,185,376,515,84,319,27,66,497};
@@ -12,9 +12,184 @@ public class main {
 //        constructRectangle(122122);
 //        reverseStr("abcdefg", 4);
 //        intToRoman(20);
-        generateParenthesis(3);
+//        generateParenthesis(3);
+//        int[] nums = {1,2,3};
+//        permute(nums);
+
+//        int[] time = {1,4};
+//        int d = 2;
+//        findPoisonedDuration(time, 2);
+
+//        int[][] grid = {{0,1,0,0},{1,1,1,0},{0,1,0,0},{1,1,0,0}};
+//        islandPerimeter(grid);
+
+//        String[] op = {"5","2","C","D","+"};
+//        System.out.println(calPoints(op));
+
+//        int[] nums1 = {4,1,2};
+//        int[] nums2 = {1,3,4,2};
+//        nextGreaterElement(nums1, nums2);
+
+//        int[] nums = {1,4,3,2};
+//        arrayPairSum(nums);
+
+        selfDividingNumbers(21, 22);
     }
 
+    public static List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> list = new ArrayList<>();
+
+        for(int i = left; i <= right; i++) {
+            int temp = i;
+            boolean isDivided = true;
+
+            while(temp != 0) {
+                if(temp % 10 == 0 || i % (temp % 10) != 0) {
+                    isDivided = false;
+                    break;
+                }
+                temp /= 10;
+            }
+
+            if(isDivided) list.add(i);
+        }
+
+        return list;
+    }
+
+    public static int arrayPairSum(int[] nums) {
+        int maxSum = 0;
+
+        String s = "";
+        s.toLowerCase();
+
+        List<Integer> numList = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        Collections.sort(numList);
+
+        for(int i = 0; i < numList.size(); i+=2) {
+            maxSum += numList.get(i);
+        }
+
+        System.out.println(maxSum);
+        return maxSum;
+    }
+
+    public static int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        boolean isSameNum;
+        int[] resultArr = new int[nums1.length];
+
+        for(int i = 0; i < nums1.length; i++) {
+            resultArr[i] = -1;
+            isSameNum = false;
+            for(int num2 : nums2) {
+                if(nums1[i] == num2) {
+                    isSameNum = true;
+                }
+                if(isSameNum && nums1[i] < num2) {
+                    resultArr[i] = num2;
+                    break;
+                }
+            }
+        }
+        return resultArr;
+    }
+
+    public static int calPoints(String[] operations) {
+        List<Integer> resultList = new ArrayList<>();
+        int temp = 0;
+        for(String opr : operations) {
+            if(opr.equals("+")) {
+                temp = resultList.get(resultList.size()-1) + resultList.get(resultList.size()-2);
+                resultList.add(temp);
+                continue;
+            }
+            if(opr.equals("D")) {
+                temp = resultList.get(resultList.size()-1) * 2;
+                resultList.add(temp);
+                continue;
+            }
+            if(opr.equals("C")) {
+                resultList.remove(resultList.size()-1);
+                continue;
+            }
+            resultList.add(Integer.parseInt(opr));
+        }
+        return resultList.stream()
+                .mapToInt(x -> x)
+                .sum();
+    }
+
+    public static boolean judgeCircle(String moves) {
+        int[] start = {0,0};
+        for(int i = 0; i < moves.length(); i++) {
+            switch(moves.charAt(i)) {
+                case 'U': start[0] += 1; break;
+                case 'D': start[0] -= 1; break;
+                case 'L': start[1] -= 1; break;
+                case 'R': start[1] += 1; break;
+            }
+        }
+        return start[0] == 0 && start[1] == 0;
+    }
+
+    public static int islandPerimeter(int[][] grid) {
+        int width = grid.length;
+        int height = grid[0].length;
+        int result = 0;
+
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++) {
+                if(grid[i][j] == 1) {
+                    result += 4;
+                    if(i > 0 && grid[i-1][j] == 1) {
+                        result -= 2;
+                    }
+                    if(j > 0 && grid[i][j-1] == 1) {
+                        result -= 2;
+                    }
+                }
+            }
+        }
+        System.out.println(result);
+        return result;
+    }
+
+    public static int findPoisonedDuration(int[] timeSeries, int duration) {
+        int index = 0;
+        int cnt = 0;
+        while(timeSeries.length > index) {
+            for(int i = 0; i < duration; i++) {
+                if(index+1 < timeSeries.length && timeSeries[index]+i == timeSeries[index+1]) {
+                    break;
+                }
+                cnt++;
+            }
+            index++;
+        }
+        System.out.println(cnt);
+        return cnt;
+    }
+
+    public static List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        permutations(result, new ArrayList<>(), nums);
+        return result;
+    }
+
+    private static void permutations(List<List<Integer>> result, List<Integer> temp, int[] nums) {
+        if (temp.size() == nums.length) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (temp.contains(nums[i])) {
+                continue;
+            }
+            temp.add(nums[i]);
+            permutations(result, temp, nums);
+            temp.remove(temp.size() - 1);
+        }
+    }
 
     public static List<String> generateParenthesis(int n) {
         List<String> combinations = new ArrayList();

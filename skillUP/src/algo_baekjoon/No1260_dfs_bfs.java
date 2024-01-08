@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Queue;
 import java.util.*;
 
-public class No1260 {
+public class No1260_dfs_bfs {
 
     static List<Integer> resultList = new ArrayList<>();
     static boolean[] visited;
