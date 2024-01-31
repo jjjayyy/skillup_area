@@ -33,7 +33,40 @@ public class main {
 //        int[] nums = {1,4,3,2};
 //        arrayPairSum(nums);
 
-        selfDividingNumbers(21, 22);
+//        selfDividingNumbers(21, 22);
+
+//        int[] candyType = {1,1,2,3};
+//        System.out.println(distributeCandies(candyType));
+
+        int[] nums = {-1,-3,-2,-4};
+        maximumProduct(nums);
+
+    }
+
+
+    public static int maximumProduct(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length - 1;
+        int max1 = nums[n] * nums[n-1] * nums[n-2];
+        int max2 = nums[0] * nums[1] * nums[n];
+
+        return Math.max(max1, max2);
+    }
+
+    public static int distributeCandies(int[] candyType) {
+        int cnt = candyType.length / 2;
+        int result = 0;
+
+        long candyTypeCnt = Arrays.stream(candyType)
+                .boxed()
+                .distinct()
+                .count();
+
+        if(candyTypeCnt < cnt) {
+            return (int) candyTypeCnt;
+        }
+
+        return cnt;
     }
 
     public static List<Integer> selfDividingNumbers(int left, int right) {
