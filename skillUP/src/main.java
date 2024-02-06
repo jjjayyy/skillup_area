@@ -38,9 +38,39 @@ public class main {
 //        int[] candyType = {1,1,2,3};
 //        System.out.println(distributeCandies(candyType));
 
-        int[] nums = {-1,-3,-2,-4};
-        maximumProduct(nums);
+//        int[] nums = {-1,-3,-2,-4};
+//        maximumProduct(nums);
 
+        int[][] img = {{100,200,100},{200,50,200},{100,200,100}};
+        imageSmoother(img);
+
+    }
+
+    public static int[][] imageSmoother(int[][] img) {
+        int m = img.length;
+        int n = img[0].length;
+        int[][] newImg = new int[m][n];
+
+        int cnt = 0;
+        int sum = 0;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                cnt = 0;
+                sum = 0;
+                for(int k = -1; k <= 1; k++) {
+                    for(int o = -1; o <= 1; o++) {
+                        if(i+k < 0 || j+o < 0 ||
+                                i+k >= img.length || j+o >= img[0].length) {
+                            continue;
+                        }
+                        sum += img[i+k][j+o];
+                        cnt++;
+                    }
+                }
+                newImg[i][j] = sum / cnt;
+            }
+        }
+        return newImg;
     }
 
 
