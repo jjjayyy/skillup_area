@@ -48,7 +48,82 @@ public class main {
 //        int[][] image = {{1,1,0},{1,0,1},{0,0,0}};
 //        flipAndInvertImage(image);
 
-        test();
+//        test();
+
+//        String aa = "3142592".substring(2,3);
+//        System.out.println(aa);
+//        solution("10203", "15");
+
+//        String[] cards1 = {"i", "water", "drink"};
+//        String[] cards2 = {"want", "to"};
+//        String[] goals = {"i", "want", "to", "drink", "water"};
+//        System.out.println(solution(cards1, cards2, goals));
+
+        solution("10203", "15");
+    }
+
+    public int solution(int k, int m, int[] score) {
+        int answer = 0;
+
+        Arrays.parallelSort(score);
+        int cnt = 0;
+        for(int i = score.length-1; i >= 0; i--) {
+            cnt++;
+            if(cnt == m) {
+                answer += score[i] * m;
+                cnt = 0;
+            }
+        }
+        return answer;
+    }
+
+    public static String solution(String[] cards1, String[] cards2, String[] goal) {
+        String answer = "";
+
+//        Queue<String> qCards1 = new LinkedList<>();
+//        Queue<String> qCards2 = new LinkedList<>();
+//
+//        for (String card : cards1) {
+//            qCards1.offer(card); // 큐에 요소 추가
+//        }
+//
+//        for (String card : cards2) {
+//            qCards2.offer(card); // 큐에 요소 추가
+//        }
+
+        int cards1Idx = 0;
+        int cards2Idx = 0;
+
+        for(String word : goal) {
+            if(cards1.length > cards1Idx && word.equals(cards1[cards1Idx])) {
+                cards1Idx++;
+                continue;
+            }
+
+            if(cards2.length > cards2Idx && word.equals(cards2[cards2Idx])) {
+                cards2Idx++;
+                continue;
+            }
+            return "No";
+        }
+        return "Yes";
+    }
+
+    public static int solution(String t, String p) {
+        int answer = 0;
+
+        long pNum = Long.parseLong(p);
+
+        for(int i = 0; i < t.length(); i++) {
+
+            if(i+p.length() > t.length()) break;
+            long tSliceNum = Long.parseLong(t.substring(i, i+p.length()));
+
+            if(pNum >= tSliceNum) {
+                answer++;
+            }
+        }
+        return answer;
     }
 
     public static void test() {
