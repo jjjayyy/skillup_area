@@ -59,8 +59,68 @@ public class main {
 //        String[] goals = {"i", "want", "to", "drink", "water"};
 //        System.out.println(solution(cards1, cards2, goals));
 
-        solution("10203", "15");
+//        solution("10203", "15");
+
+//        String[] keymap = {"AA"};
+//        String[] targets = {"B"};
+//        solution3(keymap, targets);
+
+        int[] number = {-3, -2, -1, 0, 1, 2, 3};
+        System.out.println(solution4(number));
     }
+
+    public static int solution4(int[] number) {
+        int[] temp = {0};
+        for(int i = 0; i < number.length; i++) {
+            dfs(number, i, 1, number[i], temp);
+        }
+        return temp[0];
+    }
+
+    private static void dfs(int[] number, int idx, int cnt, int sum, int[] temp) {
+        if(cnt == 3) {
+            if(sum == 0) {
+                temp[0]++;
+            }
+            return;
+        }
+
+        for(int i = idx+1; i < number.length; i++) {
+            int sum_dfs = sum;
+            sum_dfs += number[i];
+            dfs(number, i, cnt+1, sum_dfs, temp);
+        }
+    }
+
+    public static int[] solution3(String[] keymap, String[] targets) {
+        int[] answer = new int[targets.length];
+
+        for(int i = 0; i < targets.length; i++) {
+            int sum = 0;
+            for(int j = 0; j < targets[i].length(); j++) {
+                int min = Integer.MAX_VALUE;
+                boolean isContain = false;
+
+                char alphabet = targets[i].charAt(j);
+                for(String key : keymap) {
+                    isContain = isContain ? true : key.contains(alphabet + "" );
+
+                    int idx = key.indexOf(alphabet);
+                    if(idx != -1) {
+                        min = Math.min(min, key.indexOf(alphabet) + 1);
+                    }
+                }
+                sum += min;
+                if(!isContain) {
+                    sum = -1;
+                    break;
+                }
+            }
+            answer[i] = sum;
+        }
+        return answer;
+    }
+
 
     public int solution(int k, int m, int[] score) {
         int answer = 0;
