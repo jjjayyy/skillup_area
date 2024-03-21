@@ -65,8 +65,25 @@ public class main {
 //        String[] targets = {"B"};
 //        solution3(keymap, targets);
 
-        int[] number = {-3, -2, -1, 0, 1, 2, 3};
-        System.out.println(solution4(number));
+//        int[] number = {-3, -2, -1, 0, 1, 2, 3};
+//        System.out.println(solution4(number));
+
+        int[] score = {10, 0, 0, 0, 0, 0, 0};
+        solution5(2,score);
+    }
+
+    public static int[] solution5(int k, int[] score) {
+        int[] answer = new int[score.length];
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+
+        for(int i = 0; i < score.length; i++) {
+            queue.add(score[i]);
+            if (queue.size() > k) {
+                queue.poll();
+            }
+            answer[i] = queue.peek();
+        }
+        return answer;
     }
 
     public static int solution4(int[] number) {
