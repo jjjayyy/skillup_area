@@ -68,8 +68,72 @@ public class main {
 //        int[] number = {-3, -2, -1, 0, 1, 2, 3};
 //        System.out.println(solution4(number));
 
-        int[] score = {10, 0, 0, 0, 0, 0, 0};
-        solution5(2,score);
+//        int[] score = {10, 0, 0, 0, 0, 0, 0};
+//        solution5(2,score);
+
+//        int[] section = {2, 3, 6};
+//        solution6(8,4,section);
+
+//        String[] name = {"may", "kein", "kain", "radi"};
+//        int[] yearning = {5, 10, 1, 3};
+//        String[][] photo = {{"may", "kein", "kain", "radi"},{"may", "kein", "brin", "deny"}, {"kon", "kain", "may", "coni"}};
+//        solution7(name, yearning, photo);
+
+        solution8("aabba");
+    }
+
+    public static int[] solution8(String s) {
+        int[] answer = new int[s.length()];
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            map.put(c,-1);
+        }
+
+        for(int i = 0; i < s.length(); i++) {
+            int temp = map.get(s.charAt(i));
+
+            if(temp >= 0) {
+                temp = i - temp;
+            }
+
+            answer[i] = temp;
+            map.put(s.charAt(i), i);
+        }
+        return answer;
+    }
+
+    public static int[] solution7(String[] name, int[] yearning, String[][] photo) {
+        int[] answer = new int[photo.length];
+        Map<String, Integer> map = new HashMap<>();
+
+        for(int i = 0; i < name.length; i++) {
+            map.put(name[i],yearning[i]);
+        }
+
+        for(int i = 0; i < photo.length; i++) {
+            int sum = 0;
+            for(String pName : photo[i]) {
+                sum += map.getOrDefault(pName,0);
+            }
+            answer[i] = sum;
+        }
+
+        return answer;
+    }
+
+    public static int solution6(int n, int m, int[] section) {
+        int answer = 0;
+        int temp = 0;
+
+        for(int i = 0; i < section.length; i++) {
+            if(temp < section[i]) {
+                temp = section[i]+(m-1);
+                answer++;
+            }
+        }
+
+        return answer;
     }
 
     public static int[] solution5(int k, int[] score) {
