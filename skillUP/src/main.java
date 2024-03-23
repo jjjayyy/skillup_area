@@ -79,7 +79,66 @@ public class main {
 //        String[][] photo = {{"may", "kein", "kain", "radi"},{"may", "kein", "brin", "deny"}, {"kon", "kain", "may", "coni"}};
 //        solution7(name, yearning, photo);
 
-        solution8("aabba");
+//        solution8("aabba");
+
+//        int[] food = {1, 3, 4, 6};
+//        System.out.println(solution9(food));
+
+//        solution9(8, 4, 7);
+
+        solution10(4);
+    }
+
+    public static long solution10(int n) {
+
+        if(n < 3) {
+            return n;
+        }
+        long[] nArr = new long[n+1];
+        for(long i = 0; i < 3; i++) {
+            nArr[(int) i] = i;
+        }
+
+        for(int i = 3; i <= n; i++) {
+            nArr[i] = (nArr[i-1] + nArr[i-2]) % 1234567;
+        }
+        return nArr[n];
+    }
+
+    public static int solution9(int n, int a, int b)
+    {
+        int answer = 1;
+
+        if(Math.max(a,b) % 2 == 0 && Math.abs(a - b) == 1) {
+            return answer;
+        }
+        while(!(Math.max(a,b) % 2 == 0 && Math.abs(a - b) == 1)) {
+            if(a % 2 == 1) {
+                a += 1;
+            }
+            if(b % 2 == 1) {
+                b += 1;
+            }
+            a /= 2;
+            b /= 2;
+            answer++;
+        }
+        return answer;
+    }
+
+    public static String solution9(int[] food) {
+        StringBuilder builder = new StringBuilder();
+        for(int i = 1; i < food.length; i++) {
+            if(food[i] == 1) {
+                continue;
+            }
+
+            for(int j = 0; j < food[i]/2; j++) {
+                builder.append(i);
+            }
+        }
+        String result = builder.toString();
+        return result + "0" + builder.reverse().toString();
     }
 
     public static int[] solution8(String s) {
