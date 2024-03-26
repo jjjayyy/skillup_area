@@ -86,7 +86,73 @@ public class main {
 
 //        solution9(8, 4, 7);
 
-        solution10(4);
+//        solution10(4);
+
+//        solution11(3,1,20);
+
+        int[] elements = {7,9,1,1,4};
+        solution13(elements);
+    }
+
+    public static int solution13(int[] elements) {
+        Set<Integer> set = new HashSet<>();
+
+        for(int i = 0; i < elements.length; i++) {
+            int sum = elements[i];
+            set.add(sum);
+
+            for(int j = 0; j < elements.length; j++) {
+                if(i == j) continue;
+                sum += elements[j];
+                set.add(sum);
+            }
+
+//            for(int j = i+1; j < i+elements.length; j++) {
+//                sum += elements[j%elements.length];
+//                set.add(sum);
+//            }
+        }
+        return set.size();
+    }
+
+    public static int solution12(int k, int[] tangerine) {
+        int answer = 0;
+
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int num : tangerine) {
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+
+        // HashMap의 키-값 쌍을 리스트로 변환
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
+
+        // 리스트를 값에 따라 정렬 (예: 값이 작은 순서로 정렬)
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        for(Map.Entry<Integer,Integer> numMap : list) {
+            if(k <= 0) break;
+            k -= numMap.getValue();
+            answer++;
+        }
+
+        return answer;
+    }
+
+    public static int solution11(int a, int b, int n) {
+        int answer = 0;
+
+        while(n >= a) {
+            int temp = n % a;
+            answer += (n/a) * b;
+            n = (n/a) * b + temp;
+        }
+
+        return answer;
     }
 
     public static long solution10(int n) {
