@@ -90,8 +90,37 @@ public class main {
 
 //        solution11(3,1,20);
 
-        int[] elements = {7,9,1,1,4};
-        solution13(elements);
+//        int[] elements = {7,9,1,1,4};
+//        solution13(elements);
+
+        solution14();
+    }
+    public static int solution14(int number, int limit, int power) {
+        int answer = 0;
+        int[] arr = new int[number];
+
+        for(int i = 1; i <= number; i++) {
+            int cnt = 0;
+            for(int j = 1; j * j <= i; j++) {
+                if(i % j == 0) {
+                    cnt++;
+                    if(j != i/j) {
+                        cnt++;
+                    }
+                }
+            }
+            arr[i-1] = cnt;
+        }
+
+        for(int num : arr) {
+            if(num > limit) {
+                answer += power;
+                continue;
+            }
+            answer += num;
+        }
+
+        return answer;
     }
 
     public static int solution13(int[] elements) {
