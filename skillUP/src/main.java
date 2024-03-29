@@ -93,8 +93,81 @@ public class main {
 //        int[] elements = {7,9,1,1,4};
 //        solution13(elements);
 
-        solution14();
+//        solution16("abracadabra");
     }
+
+    private static int cnt = 0;
+    public static int solution(int k, int[][] dungeons) {
+
+        boolean[] visited = new boolean[dungeons.length];
+        dfs_sol17(k,dungeons,visited);
+
+        return cnt;
+    }
+
+    private static void dfs_sol17(int k, int[][] dungeons, boolean[] visited) {
+        int count = 0;
+        for(boolean visit : visited) {
+            if(visit) count++;
+        }
+        cnt = Math.max(count, cnt);
+
+        for(int i = 0; i < dungeons.length; i++) {
+            if(!visited[i] && dungeons[i][0] <= k) {
+                visited[i] = true;
+                dfs_sol17(k-dungeons[i][1], dungeons, visited);
+                visited[i] = false;
+            }
+        }
+    }
+
+    public static int solution16(String s) {
+        int answer = 0;
+        char startC = ' ';
+        int startCnt = 0;
+        int otherCnt = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(startCnt == 0) {
+                startC = s.charAt(i);
+                startCnt++;
+                continue;
+            }
+
+            if(startC == s.charAt(i)) {
+                startCnt++;
+            } else {
+                otherCnt++;
+            }
+
+            if(startCnt == otherCnt) {
+                answer++;
+                startCnt = 0;
+                otherCnt = 0;
+            }
+        }
+
+        if(startCnt > 0) {
+            answer++;
+        }
+
+        return answer;
+    }
+
+    public int solution15(String[] babbling) {
+        int answer = 0;
+
+        for(String babb : babbling) {
+            babb = babb.replaceAll("ayaaya|yeye|woowoo|mama", " ");
+            babb = babb.replaceAll("aya|ye|woo|ma", "");
+            if(babb.length() == 0) {
+                answer++;
+            }
+        }
+
+        return answer;
+    }
+
+
     public static int solution14(int number, int limit, int power) {
         int answer = 0;
         int[] arr = new int[number];
