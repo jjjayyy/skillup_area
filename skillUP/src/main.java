@@ -95,7 +95,105 @@ public class main {
 
 //        solution16("abracadabra");
 
-        solution17("z", "a", 1);
+//        solution17("z", "a", 1);
+
+//        solution18("12321", "42531");
+
+        solution19("[)(]");
+    }
+
+    private static boolean isBracket_sol19(String s) {
+        Stack<Character> stack = new Stack<>();
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '[' || s.charAt(i) == '(' || s.charAt(i) == '{') {
+                stack.push(s.charAt(i));
+                continue;
+            }
+
+            if(stack.empty()) {
+                return false;
+            }
+
+            switch(s.charAt(i)) {
+                case ']' :
+                    if(stack.peek() == '[') {
+                        stack.pop();
+                    } else {
+                        stack.push(s.charAt(i));
+                    }
+                        break;
+                case ')' :
+                    if(stack.peek() == '(') {
+                        stack.pop();
+                    } else {
+                        stack.push(s.charAt(i));
+                    }
+                    break;
+                case '}' :
+                    if(stack.peek() == '{') {
+                        stack.pop();
+                    } else {
+                        stack.push(s.charAt(i));
+                    }
+                    break;
+            }
+        }
+        return stack.empty() ? true : false;
+    }
+
+    private static String rotateStr_sol19(String s) {
+        return s.substring(1) + s.charAt(0);
+    }
+
+    public static int solution19(String s) {
+        int answer = 0;
+
+        for(int i = 0; i < s.length(); i++) {
+            if(i > 0) {
+                s = rotateStr_sol19(s);
+            }
+            if(isBracket_sol19(s)) {
+                answer++;
+            };
+        }
+
+        return answer;
+    }
+
+    public static String solution18(String X, String Y) {
+        int[] xArr = new int[10];
+        int[] yArr = new int[10];
+
+        for(int i = 0; i < X.length(); i++) {
+            xArr[Integer.parseInt(X.charAt(i)+"")]++;
+        }
+
+        for(int i = 0; i < Y.length(); i++) {
+            yArr[Integer.parseInt(Y.charAt(i)+"")]++;
+        }
+
+        int[] temp = new int[10];
+        for(int i = 0; i < temp.length; i++) {
+            while(xArr[i] > 0 && yArr[i] > 0) {
+                temp[i]++;
+                xArr[i]--;
+                yArr[i]--;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 9; i >= 0; i--) {
+            while(temp[i] > 0) {
+                sb.append(i);
+                temp[i]--;
+            }
+        }
+
+        if(sb.length() == 0) {
+            return "-1";
+        }
+
+        return sb.charAt(0) == '0' ? sb.toString().replaceAll("0+","0") : sb.toString();
     }
 
     public static String solution17(String s, String skip, int index) {
