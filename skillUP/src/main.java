@@ -99,7 +99,84 @@ public class main {
 
 //        solution18("12321", "42531");
 
-        solution19("[)(]");
+//        solution19("[)(]");
+
+//        int[] ingredient = {1, 1, 2, 2, 2, 3, 1};
+//        solution20(ingredient);
+
+        String[] want = {"banana", "apple", "rice", "pork", "pot"};
+        int[] number = {3, 2, 2, 2, 1};
+        String[] discount = {"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"};
+        solution21(want, number,discount);
+    }
+
+    private static boolean isZero_sol21(Map<String, Integer> map) {
+        return map.values().stream().allMatch(value -> value <= 0);
+    }
+
+    public static int solution21(String[] want, int[] number, String[] discount) {
+        int answer = 0;
+
+        Map<String, Integer> map = new HashMap<>();
+        for(int i = 0; i < want.length; i++) {
+            map.put(want[i],number[i]);
+        }
+
+        for(int i = 0; i < 10; i++) {
+            if(map.containsKey(discount[i])) {
+                map.put(discount[i],map.get(discount[i])-1);
+            }
+        }
+
+        if(isZero_sol21(map)) {
+            answer++;
+        }
+
+        for(int i = 10; i < discount.length; i++) {
+            if(map.containsKey(discount[i])) {
+                map.put(discount[i],map.get(discount[i])-1);
+            }
+
+            if(map.containsKey(discount[i-10])) {
+                map.put(discount[i-10],map.get(discount[i-10])+1);
+            }
+
+            if(isZero_sol21(map)) {
+                answer++;
+            }
+        }
+
+        return answer;
+    }
+
+    public static int solution20(int[] ingredient) {
+        int answer = 0;
+        Stack<Integer> stack = new Stack();
+
+        for(int num : ingredient) {
+            if(stack.empty()) {
+                if(num == 1) {
+                    stack.push(num);
+                }
+                continue;
+            }
+
+            if(stack.peek() < 3 && (stack.peek()+1 == num || num == 1)) {
+                stack.push(num);
+                continue;
+            }
+
+            if(stack.peek() == 3 && num == 1) {
+                for(int i = 0; i < 3; i++) {
+                    stack.pop();
+                }
+                answer++;
+                continue;
+            }
+            stack.clear();
+        }
+
+        return answer;
     }
 
     private static boolean isBracket_sol19(String s) {
