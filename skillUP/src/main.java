@@ -104,10 +104,88 @@ public class main {
 //        int[] ingredient = {1, 1, 2, 2, 2, 3, 1};
 //        solution20(ingredient);
 
-        String[] want = {"banana", "apple", "rice", "pork", "pot"};
-        int[] number = {3, 2, 2, 2, 1};
-        String[] discount = {"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"};
-        solution21(want, number,discount);
+//        String[] want = {"banana", "apple", "rice", "pork", "pot"};
+//        int[] number = {3, 2, 2, 2, 1};
+//        String[] discount = {"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"};
+//        solution21(want, number,discount);
+
+
+//        String[] survey = {"RT", "RT", "RT"};
+//        int[] choices = {7, 5, 2};
+//        solution22(survey, choices);
+
+        String[] cities = {"Jeju", "Pangyo", "Seoul", "NewYork", "LA"};
+        solution23(2, cities);
+    }
+
+    public static int solution23(int cacheSize, String[] cities) {
+        if(cacheSize == 0) {
+            return cities.length * 5;
+        }
+
+        int answer = 0;
+        String cityToLower = "";
+
+        List<String> cashList = new ArrayList<>();
+        for(String city : cities) {
+            cityToLower = city.toLowerCase();
+            if(cashList.contains(cityToLower)) {
+                answer += 1;
+                cashList.remove(cityToLower);
+                cashList.add(cityToLower);
+                continue;
+            }
+
+            if(cashList.size() >= cacheSize) {
+                cashList.remove(0);
+            }
+            answer += 5;
+            cashList.add(cityToLower);
+        }
+        return answer;
+    }
+
+    public static String solution22(String[] survey, int[] choices) {
+        StringBuilder builder = new StringBuilder();
+        String[] mbtiBase = {"R", "T", "C", "F", "J", "M", "A", "N"};
+
+        //mbti 세팅
+        Map<String, Integer> mbtiMap = new HashMap<>();
+        for(String mbti : mbtiBase) {
+            mbtiMap.put(mbti,0);
+        }
+
+        for(int i = 0; i < survey.length; i++) {
+            String mbti1 = String.valueOf(survey[i].charAt(0));
+            String mbti2 = String.valueOf(survey[i].charAt(1));
+            if(choices[i] == 4) {
+                continue;
+            }
+
+            if(choices[i] > 4) {
+                mbtiMap.put(mbti2, mbtiMap.get(mbti2) + (choices[i] - 4));
+                continue;
+            }
+
+            mbtiMap.put(mbti1, mbtiMap.get(mbti1) + (4 - choices[i]));
+        }
+
+        for(int i = 0; i < mbtiBase.length; i+=2) {
+            if(mbtiMap.get(mbtiBase[i]) == mbtiMap.get(mbtiBase[i+1])) {
+                int temp = mbtiBase[i].compareTo(mbtiBase[i+1]);
+                String mbti = temp < 0 ? mbtiBase[i] : mbtiBase[i+1];
+                builder.append(mbti);
+                continue;
+            }
+
+            if(mbtiMap.get(mbtiBase[i]) > mbtiMap.get(mbtiBase[i+1])) {
+                builder.append(mbtiBase[i]);
+                continue;
+            }
+            builder.append(mbtiBase[i+1]);
+        }
+
+        return builder.toString();
     }
 
     private static boolean isZero_sol21(Map<String, Integer> map) {
