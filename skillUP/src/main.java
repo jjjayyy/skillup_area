@@ -116,6 +116,26 @@ public class main {
 
         String[] cities = {"Jeju", "Pangyo", "Seoul", "NewYork", "LA"};
         solution23(2, cities);
+
+        String[][] board = {{"blue", "red", "orange", "red"}, {"red", "red", "blue", "orange"}, {"blue", "orange", "red", "red"}, {"orange", "orange", "red", "blue"}};
+        solution24(board, 1, 1);
+    }
+
+    public static int solution24(String[][] board, int h, int w) {
+        int answer = 0;
+        String center = board[h][w];
+
+        for(int i = -1; i < 2; i+=2) {
+            if(((i == -1 && h+i >= 0) || (i == 1 && h+i <= board.length)) && center.equals(board[h+i][w])) {
+                answer++;
+            }
+
+            if (((i == -1 && w+i >= 0) || (i == 1 && w+i <= board.length)) && center.equals(board[h][w+i])) {
+                answer++;
+            }
+        }
+
+        return answer;
     }
 
     public static int solution23(int cacheSize, String[] cities) {
