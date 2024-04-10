@@ -114,11 +114,75 @@ public class main {
 //        int[] choices = {7, 5, 2};
 //        solution22(survey, choices);
 
-        String[] cities = {"Jeju", "Pangyo", "Seoul", "NewYork", "LA"};
-        solution23(2, cities);
+//        String[] cities = {"Jeju", "Pangyo", "Seoul", "NewYork", "LA"};
+////        solution23(2, cities);
+////
+////        String[][] board = {{"blue", "red", "orange", "red"}, {"red", "red", "blue", "orange"}, {"blue", "orange", "red", "red"}, {"orange", "orange", "red", "blue"}};
+////        solution24(board, 1, 1);
 
-        String[][] board = {{"blue", "red", "orange", "red"}, {"red", "red", "blue", "orange"}, {"blue", "orange", "red", "red"}, {"orange", "orange", "red", "blue"}};
-        solution24(board, 1, 1);
+//        String[] wallpaper = {".#...", "..#..", "...#."};
+//            solution25(wallpaper);
+
+//            solution26("110010101001");
+            solution27(4, 7, 14);
+    }
+
+    public static int[] solution27(int n, long left, long right) {
+        int[] answer = new int[(int) (right-left+1)];
+
+        long startI = left / n;
+        long startJ = left % n;
+        long endI = right / n;
+        long endJ = right % n;
+
+        int index = 0;
+        for(long i = startI; i <= endI; i++) {
+            for(long j = (i == startI ? startJ : 0); j <= (i == endI ? endJ : n-1); j++) {
+                answer[index] = (int) Math.max(i,j) + 1;
+                index++;
+            }
+        }
+
+        return answer;
+    }
+
+    public static int[] solution26(String s) {
+        int[] answer = new int[2];
+
+        while (s.length() > 1) {
+            int length = s.length();
+            s = s.replaceAll("0","");
+            answer[0]++;
+            answer[1] += length - s.length();
+
+            s = Integer.toBinaryString(s.length());
+        }
+        return answer;
+    }
+
+    public static int[] solution25(String[] wallpaper) {
+        int[] answer = new int[4];
+
+        answer[0] = Integer.MAX_VALUE;
+        answer[1] = Integer.MAX_VALUE;
+
+        String s= "123";
+        s.replaceAll("0","");
+
+        for(int i = 0; i < wallpaper.length; i++) {
+            for(int j = 0; j < wallpaper[i].length(); j++) {
+                if(wallpaper[i].charAt(j) == '#') {
+                    answer[0] = Math.min(answer[0],i);
+                    answer[1] = Math.min(answer[1],j);
+                    answer[2] = Math.max(answer[2],i);
+                    answer[3] = Math.max(answer[3],j);
+                }
+            }
+        }
+
+        answer[2]++;
+        answer[3]++;
+        return answer;
     }
 
     public static int solution24(String[][] board, int h, int w) {
