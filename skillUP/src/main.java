@@ -124,7 +124,66 @@ public class main {
 //            solution25(wallpaper);
 
 //            solution26("110010101001");
-            solution27(4, 7, 14);
+//            solution27(4, 7, 14);
+
+        String[] terms = {"A 13"};
+        String[] privacies = {"2008.11.03 A"};
+
+            solution28("2009.12.31", terms, privacies);
+    }
+
+
+    public static int[] solution28(String today, String[] terms, String[] privacies) {
+        String[] temp = {};
+        temp = today.split("\\.");
+        int todayYY = Integer.parseInt(temp[0]);
+        int todayMM = Integer.parseInt(temp[1]);
+        int todayDD = Integer.parseInt(temp[2]);
+
+        Map<String, Integer> termsMap = new HashMap<>();
+        for(String term : terms) {
+            temp = term.split(" ");
+            termsMap.put(temp[0], Integer.parseInt(temp[1]));
+        }
+
+        String[] yymmddTemp = {};
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < privacies.length; i++) {
+            temp = privacies[i].split(" ");
+            yymmddTemp = temp[0].split("\\.");
+
+            int yy = Integer.parseInt(yymmddTemp[0]);
+            int mm = Integer.parseInt(yymmddTemp[1]);
+            int dd = Integer.parseInt(yymmddTemp[2]);
+
+            int tMonth = termsMap.get(temp[1]);
+            mm += tMonth;
+            dd -= 1;
+            if(dd == 0 ) {
+                dd = 28;
+                mm -= 1;
+            }
+
+            if(mm <= 0) {
+                yy -= 1;
+                mm += 12;
+            }
+
+            if(mm > 12) {
+                yy += mm/12;
+                mm %= 12;
+                if(mm == 0) {
+                    yy -= 1;
+                    mm = 12;
+                }
+            }
+
+            if((todayYY > yy) || (todayYY == yy && todayMM > mm) || (todayYY == yy && todayMM == mm && todayDD > dd)) {
+                list.add(i+1);
+            }
+        }
+
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public static int[] solution27(int n, long left, long right) {
