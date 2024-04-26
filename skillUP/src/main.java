@@ -129,7 +129,87 @@ public class main {
         String[] terms = {"A 13"};
         String[] privacies = {"2008.11.03 A"};
 
-            solution28("2009.12.31", terms, privacies);
+//            solution28("2009.12.31", terms, privacies);
+
+        String[] park = {"SOO","OXX","OOO"};
+        String[] routes = {"E 2","S 2","W 1"};
+            solution29(park, routes);
+
+
+    }
+
+
+    public static int[] solution29(String[] park, String[] routes) {
+        int[] answer = new int[2];
+        int w = park[0].length()-1;
+        int h = park.length-1;
+
+        for(int i = 0; i < park.length; i++) {
+            if(park[i].contains("S")) {
+                for(int j = 0; j < park[i].length(); j++) {
+                    if(park[i].charAt(j) == 'S') {
+                        answer[0] = i;
+                        answer[1] = j;
+                        break;
+                    }
+                }
+            }
+        }
+
+        outerLoop:for(int i = 0; i < routes.length; i++) {
+            String[] routeArr = routes[i].split(" ");
+            int routeNum = Integer.parseInt(routeArr[1]);
+            if(routeArr[0].equals("E")) {
+                if(w < answer[1] + routeNum) {
+                    continue;
+                }
+
+                for(int j = answer[1]; j <= answer[1] + routeNum; j++) {
+                    if(park[answer[0]].charAt(j) == 'X') {
+                        continue outerLoop;
+                    }
+                }
+                answer[1] += routeNum;
+            }
+
+            if(routeArr[0].equals("W")) {
+                if(0 > answer[1] - routeNum) {
+                    continue;
+                }
+                for(int j = answer[1] - routeNum; j <= answer[1]; j++) {
+                    if(park[answer[0]].charAt(j) == 'X') {
+                        continue outerLoop;
+                    }
+                }
+                answer[1] -= routeNum;
+            }
+
+            if(routeArr[0].equals("N")) {
+                if(0 > answer[0] - routeNum) {
+                    continue;
+                }
+                for(int j = answer[0] - routeNum; j <= answer[0]; j++) {
+                    if(park[j].charAt(answer[1]) == 'X') {
+                        continue outerLoop;
+                    }
+                }
+                answer[0] -= routeNum;
+            }
+
+            if(routeArr[0].equals("S")) {
+                if(h < answer[0] + routeNum) {
+                    continue;
+                }
+                for(int j = answer[0]; j <= answer[0] + routeNum; j++) {
+                    if(park[j].charAt(answer[1]) == 'X') {
+                        continue outerLoop;
+                    }
+                }
+                answer[0] += routeNum;
+            }
+        }
+
+        return answer;
     }
 
 
