@@ -133,9 +133,82 @@ public class main {
 
         String[] park = {"SOO","OXX","OOO"};
         String[] routes = {"E 2","S 2","W 1"};
-            solution29(park, routes);
+//            solution29(park, routes);
+
+        String[] players = {"mumu", "soe", "poe", "kai", "mine"};
+        String[] callings = {"kai", "kai", "mine", "mine"};
+//        solution30(players, callings);
+
+        solution31("{123}");
+    }
 
 
+    public static int[] solution31(String s) {
+        s = s.substring(1, s.length()-1);
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
+        List<Integer> list = new ArrayList<>();
+        int n = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '{') {
+                list = new ArrayList<>();
+                continue;
+            };
+
+            if(s.charAt(i) == '}') {
+                list.add(Integer.parseInt(builder.toString()));
+                map.put(list.size(), list);
+                n = Math.max(n, list.size());
+                builder.setLength(0);
+                continue;
+            }
+
+            if(s.charAt(i) == ',') {
+                if(builder.length() > 0) {
+                    list.add(Integer.parseInt(builder.toString()));
+                    builder.setLength(0);
+                }
+                continue;
+            }
+            builder.append(s.charAt(i));
+        }
+
+        int answer[] = new int[n];
+        for(int i = 1; i <= n; i++) {
+            for(int num : map.get(i)) {
+                if(i > 1 && map.get(i-1).contains(num)) {
+                    continue;
+                }
+                answer[i-1] = num;
+            }
+        }
+
+        return answer;
+    }
+
+
+    public static String[] solution30(String[] players, String[] callings) {
+        Map<String, Integer> map = new HashMap<>();
+
+        for(int i = 0; i < players.length; i++) {
+            map.put(players[i], i);
+        }
+
+        for(String call : callings) {
+            int rank = map.get(call);
+
+            //map 배열 순서 정리
+            map.put(players[rank], rank-1);
+            map.put(players[rank-1], rank);
+
+            //player 배열 순서 정리
+            String temp = players[rank-1];
+            players[rank-1] = players[rank];
+            players[rank] = temp;
+        }
+
+        return players;
     }
 
 
