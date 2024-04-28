@@ -139,9 +139,58 @@ public class main {
         String[] callings = {"kai", "kai", "mine", "mine"};
 //        solution30(players, callings);
 
-        solution31("{123}");
+//        solution31("{123}");
+
+        solution32(437674, 3);
     }
 
+
+    private static boolean isPrime(long number) {
+        if (number <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int solution32(int n, int k) {
+        int answer = 0;
+
+        StringBuilder builder = new StringBuilder();
+        while (n > 0) {
+            int remainder = n % k;
+            builder.insert(0, remainder);
+            n /= k;
+        }
+
+        String number = builder.toString();
+        builder.setLength(0);
+
+        for(int i = 0; i < number.length(); i++) {
+            if(number.charAt(i) == '0') {
+                if(builder.length() > 0) {
+                    if(isPrime(Long.parseLong(builder.toString()))) {
+                        answer++;
+                    }
+                }
+                builder.setLength(0);
+                continue;
+            }
+            builder.append(number.charAt(i));
+        }
+
+        if(builder.length() > 0) {
+            if(isPrime(Long.parseLong(builder.toString()))) {
+                answer++;
+            }
+        }
+
+        return answer;
+    }
 
     public static int[] solution31(String s) {
         s = s.substring(1, s.length()-1);
