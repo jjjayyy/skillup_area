@@ -141,7 +141,34 @@ public class main {
 
 //        solution31("{123}");
 
-        solution32(437674, 3);
+//        solution32(437674, 3);
+
+        int[] nums1 = {1,2,3,0,0,0};
+        int[] nums2 = {2,5,6};
+        int m = 3;
+        int n = 3;
+        merge(nums1, m, nums2, n);
+    }
+
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        // 마지막 인덱스 설정
+        int i = m - 1; // nums1의 유효한 요소의 마지막 인덱스
+        int j = n - 1; // nums2의 마지막 인덱스
+        int k = m + n - 1; // 병합 후 nums1의 마지막 인덱스
+
+        // 역방향으로 병합 시작
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+
+        // nums2가 남아있는 경우
+        while (j >= 0) {
+            nums1[k--] = nums2[j--];
+        }
     }
 
 
