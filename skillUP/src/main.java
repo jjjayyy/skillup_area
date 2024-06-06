@@ -143,13 +143,37 @@ public class main {
 
 //        solution32(437674, 3);
 
-        int[] nums1 = {1,2,3,0,0,0};
-        int[] nums2 = {2,5,6};
-        int m = 3;
-        int n = 3;
+        int[] nums1 = {1,1,2};
+//        int[] nums2 = {2,5,6};
+//        int m = 3;
+//        int n = 3;
 //        merge(nums1, m, nums2, n);
-        Map<String, Integer> s = new HashMap();
-        System.out.println(s.get("key"));
+//        Map<String, Integer> s = new HashMap();
+//        System.out.println(s.get("key"));
+
+        removeDuplicates(nums1);
+    }
+
+    public static int removeDuplicates(int[] nums) {
+        int temp = Integer.MAX_VALUE;
+        int k = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(temp != nums[i]) {
+                temp = nums[i];
+                nums[k] = temp;
+                k++;
+            }
+        }
+
+        return k;
+    }
+
+    public boolean isPalindrome(String s) {
+        s = s.replaceAll("[^a-zA-Z0-9]", "");
+        if(s.equalsIgnoreCase(new StringBuilder(s).reverse().toString())) {
+            return true;
+        }
+        return false;
     }
 
     public boolean canConstruct(String ransomNote, String magazine) {
