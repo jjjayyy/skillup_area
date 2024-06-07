@@ -151,7 +151,29 @@ public class main {
 //        Map<String, Integer> s = new HashMap();
 //        System.out.println(s.get("key"));
 
-        removeDuplicates(nums1);
+//        removeDuplicates(nums1);
+
+        isIsomorphic("badc", "baba");
+    }
+
+
+    public static boolean isIsomorphic(String s, String t) {
+        Map<String, String> map = new HashMap<>();
+        Map<String, String> valueMap = new HashMap<>();
+
+        for(int i = 0; i < s.length(); i++) {
+            if(map.containsKey(s.charAt(i)+"") && !map.get(s.charAt(i)+"").equals(t.charAt(i)+"")) {
+                    return false;
+            }
+
+            if(valueMap.containsKey(t.charAt(i)+"") && !valueMap.get(t.charAt(i)+"").equals(s.charAt(i)+"")) {
+                return false;
+            }
+
+            map.put(s.charAt(i)+"", t.charAt(i)+"");
+            valueMap.put(t.charAt(i)+"", s.charAt(i)+"");
+        }
+        return true;
     }
 
     public static int removeDuplicates(int[] nums) {
