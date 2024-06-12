@@ -153,9 +153,44 @@ public class main {
 
 //        removeDuplicates(nums1);
 
-        isIsomorphic("badc", "baba");
+//        isIsomorphic("badc", "baba");
+//        int[] nums = {1,1,2,2,3,3,4,4,4,4};
+//        majorityElement(nums);
+
+        wordPattern("abba", "dog dog dog dog");
     }
 
+    public static boolean wordPattern(String pattern, String s) {
+        String[] sArr = s.split(" ");
+        Map<String, String> map = new HashMap<>();
+
+        if(pattern.length() != sArr.length) {
+            return false;
+        }
+
+        for(int i = 0; i < pattern.length(); i++) {
+            String patternWord = pattern.charAt(i)+"";
+            if(map.containsKey(patternWord)) {
+                if(!map.get(patternWord).equals(sArr[i])) {
+                    return false;
+                }
+            } else {
+                if(map.containsValue(sArr[i])) {
+                    return false;
+                }
+                map.put(patternWord, sArr[i]);
+            }
+        }
+
+        return true;
+    }
+
+
+    public static int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        return nums[n/2];
+    }
 
     public static boolean isIsomorphic(String s, String t) {
         Map<String, String> map = new HashMap<>();
