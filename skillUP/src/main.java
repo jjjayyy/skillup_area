@@ -159,6 +159,38 @@ public class main {
 
         wordPattern("abba", "dog dog dog dog");
     }
+    public boolean isValid(String s) {
+        Stack stack = new Stack();
+        Map<Character, Character> map = new HashMap<>();
+        map.put(')','(');
+        map.put('}','{');
+        map.put(']','[');
+
+        boolean isValid = true;
+
+        for(int i = 0; i < s.length(); i++) {
+            if(map.containsKey(s.charAt(i))) {
+                if(stack.isEmpty()) {
+                    isValid = false;
+                    break;
+                }
+
+                if(map.get(s.charAt(i)) == stack.peek()) {
+                    stack.pop();
+                    continue;
+                }
+                isValid = false;
+                break;
+            }
+            stack.push(s.charAt(i));
+        }
+
+        if(!stack.isEmpty()) {
+            isValid = false;
+        }
+
+        return isValid;
+    }
 
     public static boolean wordPattern(String pattern, String s) {
         String[] sArr = s.split(" ");
