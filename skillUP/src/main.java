@@ -157,8 +157,55 @@ public class main {
 //        int[] nums = {1,1,2,2,3,3,4,4,4,4};
 //        majorityElement(nums);
 
-        wordPattern("abba", "dog dog dog dog");
+//        wordPattern("abba", "dog dog dog dog");
+
+//        int[] prices = {7,1,5,3,6,4};
+//        maxProfit(prices);
+
+        romanToInt("III");
     }
+
+    public static int romanToInt(String s) {
+        Map<Character, Integer> romanMap = new HashMap<>();
+        romanMap.put('I', 1);
+        romanMap.put('V', 5);
+        romanMap.put('X', 10);
+        romanMap.put('L', 50);
+        romanMap.put('C', 100);
+        romanMap.put('D', 500);
+        romanMap.put('M', 1000);
+
+        int result = 0;
+        int n = s.length();
+
+        for (int i = 0; i < n; i++) {
+            int current = romanMap.get(s.charAt(i));
+            if (i < n - 1 && current < romanMap.get(s.charAt(i + 1))) {
+                result -= current;
+            } else {
+                result += current;
+            }
+        }
+
+        return result;
+    }
+
+    public static int maxProfit(int[] prices) {
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price;
+            } else if (price - minPrice > maxProfit) {
+                maxProfit = price - minPrice;
+            }
+        }
+
+        return maxProfit;
+    }
+
+
     public boolean isValid(String s) {
         Stack stack = new Stack();
         Map<Character, Character> map = new HashMap<>();
