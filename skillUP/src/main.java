@@ -162,7 +162,39 @@ public class main {
 //        int[] prices = {7,1,5,3,6,4};
 //        maxProfit(prices);
 
-        romanToInt("III");
+//        romanToInt("III");
+        strStr("sadbutsad", "sad");
+    }
+
+    public static int strStr(String haystack, String needle) {
+        if(!haystack.contains(needle)) {
+            return -1;
+        }
+
+        haystack = haystack.replaceFirst(needle, "0");
+
+        return haystack.indexOf("0");
+    }
+
+    public String longestCommonPrefix(String[] strs) {
+        StringBuilder sb = new StringBuilder();
+        outloop:
+        for(int i = 0; i <strs[0].length(); i++) {
+            sb.append(strs[0].charAt(i));
+            for(String str : strs) {
+                if(!str.startsWith(sb.toString())) {
+                    sb.deleteCharAt(sb.length());
+                    break outloop;
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    public int lengthOfLastWord(String s) {
+        s = s.trim();
+        String[] words = s.split("\\s+");
+        return words[words.length].length();
     }
 
     public static int romanToInt(String s) {
