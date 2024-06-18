@@ -166,6 +166,37 @@ public class main {
         strStr("sadbutsad", "sad");
     }
 
+    public int[] twoSum(int[] nums, int target) {
+        int[] resultArr = new int[2];
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] >= target) {
+                continue;
+            }
+            for(int j = i+1; j < nums.length; j++) {
+                if(nums[i] + nums[j] == target) {
+                    resultArr[0] = i;
+                    resultArr[1] = j;
+                    break;
+                }
+            }
+        }
+
+        return resultArr;
+    }
+
+    public boolean isAnagram(String s, String t) {
+        for(int i = 0; i < s.length(); i++) {
+            if (t.contains(s.charAt(i) + "")) {
+                t = t.replaceFirst(s.charAt(i)+"", "");
+            } else {
+                return false;
+            }
+
+        }
+
+        return t.length() == 0;
+    }
+
     public static int strStr(String haystack, String needle) {
         if(!haystack.contains(needle)) {
             return -1;
