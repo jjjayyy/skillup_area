@@ -163,7 +163,25 @@ public class main {
 //        maxProfit(prices);
 
 //        romanToInt("III");
-        strStr("sadbutsad", "sad");
+//        strStr("sadbutsad", "sad");
+
+        isHappy(2);
+    }
+
+
+    public static boolean isHappy(int n) {
+        Set<Integer> seenNumbers = new HashSet<>();
+        while(n != 1  && !seenNumbers.contains(n)) {
+            seenNumbers.add(n);
+            int temp = 0;
+            while(n > 0) {
+                int digit = n % 10;
+                temp += digit * digit;
+                n /= 10;
+            }
+            n = temp;
+        }
+        return n == 1;
     }
 
     public int[] twoSum(int[] nums, int target) {
