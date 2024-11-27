@@ -167,8 +167,76 @@ public class main {
 
 //        isHappy(2);
 
-        int[] nums = {1,0,1,1};
-        containsNearbyDuplicate(nums, 1);
+//        int[] nums = {1,0,1,1};
+//        containsNearbyDuplicate(nums, 1);
+
+//        int[] nums = {0,1,2,4,5,7};
+//        summaryRanges(nums);
+
+        int[] score = {10,3,8,9,4};
+        findRelativeRanks(score);
+    }
+
+    public static String[] findRelativeRanks(int[] score) {
+
+        String[] resultArr = new String[score.length];
+        Map<Integer, String> map = new HashMap<>();
+        String[] medals = {"Gold Medal","Silver Medal","Bronze Medal"};
+
+        int[] scoreOrderd = Arrays.stream(score)
+                .boxed() // int -> Integer로 박싱
+                .sorted(Collections.reverseOrder()) // 내림차순 정렬
+                .mapToInt(Integer::intValue) // Integer -> int로 언박싱
+                .toArray();
+
+
+        int rank = 1;
+        for(int num : scoreOrderd) {
+            String rankStr = String.valueOf(rank);
+            if(rank-1 < medals.length) {
+                rankStr = medals[rank-1];
+            }
+            map.put(num, rankStr);
+            rank++;
+        }
+
+        for(int i = 0; i < score.length; i++) {
+            resultArr[i] = map.get(score[i]);
+        }
+
+        return resultArr;
+    }
+
+    public static List<String> summaryRanges(int[] nums) {
+
+        List<String> smryList = new ArrayList<>();
+        int start = 0;
+        int temp = 0;
+        boolean isStarted = false;
+
+        for(int i = 0; i < nums.length; i++) {
+            if(!isStarted) {
+                start = nums[i];
+                temp = nums[i];
+                isStarted = true;
+                continue;
+            }
+
+            if(isStarted) {
+                if(temp+1 == nums[i]) {
+                    temp = nums[i];
+                } else {
+                    if(start == nums[i-1]) {
+                        smryList.add(start + "" );
+                    } else {
+                        smryList.add(start + "->" + nums[i-1]);
+                    }
+                    isStarted = false;
+                }
+            }
+        }
+
+        return smryList;
     }
 
     public static boolean containsNearbyDuplicate(int[] nums, int k) {
