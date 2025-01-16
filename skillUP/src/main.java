@@ -173,8 +173,10 @@ public class main {
 //        int[] nums = {0,1,2,4,5,7};
 //        summaryRanges(nums);
 
-        int[] score = {10,3,8,9,4};
-        findRelativeRanks(score);
+//        int[] score = {10,3,8,9,4};
+//        findRelativeRanks(score);
+
+
     }
 
     public static String[] findRelativeRanks(int[] score) {
