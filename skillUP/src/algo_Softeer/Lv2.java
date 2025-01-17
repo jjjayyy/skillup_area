@@ -4,51 +4,96 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Lv1 {
-
+public class Lv2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] nm = br.readLine().split(" ");
-        int n = Integer.parseInt(nm[0]);
-        int m = Integer.parseInt(nm[1]);
+        int n = Integer.parseInt(br.readLine());
+        String[] houseArr = br.readLine().split(" ");
+//        List<Integer> list = Arrays.stream(houseArr)
+//                .mapToInt(s -> Integer.parseInt(s))
+//                .sorted()
+//                .boxed()
+//                .collect(Collectors.toList());
 
-        String[] matrixN = new String[n];
-        for(int i = 0; i < n; i++) {
-            matrixN[i] = br.readLine().replaceAll(" ","");
-        }
-
-        String[] firstAttack = br.readLine().split(" ");
-        String[] secondAttack = br.readLine().split(" ");
-
-        int firstAttackStart = Integer.parseInt(firstAttack[0]);
-        int firstAttackEnd = Integer.parseInt(firstAttack[1]);
-        int secondAttackStart = Integer.parseInt(secondAttack[0]);
-        int secondAttackEnd = Integer.parseInt(secondAttack[1]);
-
-        int result = 0;
-        for(int i = 0; i < n; i++) {
-            int line1 = 0;
-            for(int j = 0; j < matrixN[i].length(); j++) {
-                if (matrixN[i].charAt(j) == '1') {
-                    line1++;
+        int max = 1;
+        for(int i = 2; i <= 100; i++) {
+            int num = 0;
+            for(int j = 0; j < n; j++) {
+                if(Integer.parseInt(houseArr[j]) % i == 0) {
+                    num++;
                 }
+                max = Math.max(max, num);
             }
-
-            if(firstAttackStart <= i && firstAttackEnd > i) {
-                line1--;
-            }
-
-            if(secondAttackStart <= i && secondAttackEnd > i) {
-                line1--;
-            }
-
-            if(line1 < 0) line1 = 0;
-
-            result += line1;
         }
+        System.out.println(max);
 
-        System.out.println(result);
+//        for(int i = 2; i < list.get(list.size()-1)/2; i++) {
+//            int num = 0;
+//            for(int j = idx; j < n; j++) {
+//                if(list.get(j) % i == 0) {
+//                    num++;
+//                }
+//                max = Math.max(max, num);
+//            }
+//        }
+
+//        for(int i = 0; i < n-1; i++) {
+//            int base = list.get(i);
+//            int num = 1;
+//            for(int j = i+1; j < n; j++) {
+//                if(list.get(j) % base == 0) {
+//                    num++;
+//                }
+//                max = Math.max(max, num);
+//            }
+//        }
+        System.out.println(max);
     }
+
+
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        String[] nm = br.readLine().split(" ");
+//        int n = Integer.parseInt(nm[0]);
+//        int m = Integer.parseInt(nm[1]);
+//
+//        String[] matrixN = new String[n];
+//        for(int i = 0; i < n; i++) {
+//            matrixN[i] = br.readLine().replaceAll(" ","");
+//        }
+//
+//        String[] firstAttack = br.readLine().split(" ");
+//        String[] secondAttack = br.readLine().split(" ");
+//
+//        int firstAttackStart = Integer.parseInt(firstAttack[0]);
+//        int firstAttackEnd = Integer.parseInt(firstAttack[1]);
+//        int secondAttackStart = Integer.parseInt(secondAttack[0]);
+//        int secondAttackEnd = Integer.parseInt(secondAttack[1]);
+//
+//        int result = 0;
+//        for(int i = 0; i < n; i++) {
+//            int line1 = 0;
+//            for(int j = 0; j < matrixN[i].length(); j++) {
+//                if (matrixN[i].charAt(j) == '1') {
+//                    line1++;
+//                }
+//            }
+//
+//            if(firstAttackStart <= i && firstAttackEnd > i) {
+//                line1--;
+//            }
+//
+//            if(secondAttackStart <= i && secondAttackEnd > i) {
+//                line1--;
+//            }
+//
+//            if(line1 < 0) line1 = 0;
+//
+//            result += line1;
+//        }
+//
+//        System.out.println(result);
+//    }
 
 //    public static void main(String[] args) throws IOException {
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -131,84 +176,5 @@ public class Lv1 {
 //        for(String numStr : list) {
 //            System.out.println(numStr);
 //        }
-//    }
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        int n = Integer.parseInt(br.readLine());
-//
-//        if(n <= 1) {
-//            return;
-//        }
-//
-//        List<Integer> list = Arrays.stream(br.readLine().split(" "))
-//                .mapToInt(i -> Integer.parseInt(i))
-//                .sorted()
-//                .boxed()
-//                .collect(Collectors.toList());
-//
-//        if(n == 2) {
-//            System.out.println(list.get(0) * list.get(1));
-//            return;
-//        }
-//
-//        int max = list.get(0) * list.get(1);
-//        int min = list.get(list.size()-1) * list.get(list.size()-2);
-//
-//        System.out.println(Math.max(max,min));
-//    }
-
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        String[] tempArr = br.readLine().split(" ");
-//
-//        int a = Integer.parseInt(tempArr[0]);
-//        int b = Integer.parseInt(tempArr[1]);
-//        int dOrign = Integer.parseInt(tempArr[2]);
-//
-//        int result = 0;
-//
-//        for(int i = 0; i < 2; i++) {
-//            int d = dOrign;
-//            if(i == 1) {
-//                int temp = a;
-//                a = b;
-//                b = temp;
-//            }
-//
-//            while(d > 0) {
-//                d -= a;
-//                if(d < 0) {
-//                    continue;
-//                }
-//
-//                if(d == 0) {
-//                    result += a;
-//                    continue;
-//                }
-//                result += a+b;
-//            }
-//        }
-//
-//        System.out.println(result);
-//    }
-
-
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        int n = Integer.parseInt(br.readLine());
-//        String[] townArr = br.readLine().split(" ");
-//        Map<Integer, Integer> map = new HashMap<>();
-//
-//        for(int i = 1; i < n; i++) {
-//            int dist = Integer.parseInt(townArr[i]) - Integer.parseInt(townArr[i-1]);
-//            map.put(dist, map.getOrDefault(dist,0)+1);
-//        }
-//
-//        int resultKey = Integer.MAX_VALUE;
-//        for(Integer key : map.keySet()) {
-//            resultKey = Math.min(resultKey, key);
-//        }
-//
-//        System.out.println(map.get(resultKey));
 //    }
 }
