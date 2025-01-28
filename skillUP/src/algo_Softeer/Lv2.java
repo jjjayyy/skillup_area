@@ -3,52 +3,162 @@ package algo_Softeer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Lv2 {
+    private static boolean[][] visited;
+    private static int[] dx = {-1, 1, 0, 0};
+    private static int[] dy = {0, 0, -1, 1};
+    private static int[][] grid;
+
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        String[] houseArr = br.readLine().split(" ");
-//        List<Integer> list = Arrays.stream(houseArr)
-//                .mapToInt(s -> Integer.parseInt(s))
-//                .sorted()
-//                .boxed()
-//                .collect(Collectors.toList());
+        String[] temp = br.readLine().split(" ");
+        int N = Integer.parseInt(temp[0]);
+        int M = Integer.parseInt(temp[1]);
 
-        int max = 1;
-        for(int i = 2; i <= 100; i++) {
-            int num = 0;
-            for(int j = 0; j < n; j++) {
-                if(Integer.parseInt(houseArr[j]) % i == 0) {
-                    num++;
-                }
-                max = Math.max(max, num);
-            }
+        Map<String, ArrayList<Integer>> map = new TreeMap<>();
+        Map<String, ArrayList<String>> resultMap = new TreeMap<>();
+
+        for(int i = 0; i < N; i++) {
+            String model = br.readLine();
+            map.put(model, new ArrayList<>());
+            resultMap.put(model, new ArrayList<>());
         }
-        System.out.println(max);
 
-//        for(int i = 2; i < list.get(list.size()-1)/2; i++) {
-//            int num = 0;
-//            for(int j = idx; j < n; j++) {
-//                if(list.get(j) % i == 0) {
-//                    num++;
-//                }
-//                max = Math.max(max, num);
-//            }
-//        }
+        int[][] arr = new int[M][2];
+        for(int i = 0; i < M; i++) {
+            String[] innerTemp = br.readLine().split(" ");
+            map.get(innerTemp[0]).add(i);
+            arr[i][0] = Integer.parseInt(innerTemp[1]);
+            arr[i][1] = Integer.parseInt(innerTemp[2]);
+        }
 
-//        for(int i = 0; i < n-1; i++) {
-//            int base = list.get(i);
-//            int num = 1;
-//            for(int j = i+1; j < n; j++) {
-//                if(list.get(j) % base == 0) {
-//                    num++;
-//                }
-//                max = Math.max(max, num);
-//            }
-//        }
-        System.out.println(max);
+        StringBuilder sb = new StringBuilder();
+        for(String key : map.keySet()) {
+            List<Integer> list = map.get(key);
+            list.sort((a, b) -> Integer.compare(arr[a][0], arr[b][0]));
+
+            int start = 9;
+            for(int i = 0; i < list.size(); i++) {
+                sb.setLength(0);
+                if(arr[list.get(i)][0] != start) {
+                    sb.append(start == 9 ? "09" : start);
+                    sb.append("_");
+                    sb.append(arr[list.get(i)][0]);
+                }
+                start = arr[list.get(i)][1];
+                if(sb.length() > 0) {
+                    resultMap.get(key).add(sb.toString());
+                }
+            }
+            resultMap.get(key).add(sb.toString());
+        }
+
+        for(String key : resultMap.keySet()) {
+            System.out.println("Room " + key + ":");
+            if(resultMap.get(key).size() == 0) {
+                System.out.println("Not available");
+            } else {
+                System.out.println(resultMap.get(key).size() + " available:");
+                for(String time : resultMap.get(key)) {
+                    System.out.println(time);
+                }
+            }
+            System.out.println("-----");
+        }
+
+
     }
+
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        int n = Integer.parseInt(br.readLine());
+//        String[][] testCase = new String[n][2];
+//        for(int i = 0; i < n; i++) {
+//            String[] temp = br.readLine().split(" ");
+//            testCase[i][0] = "X".repeat(5 - temp[0].length()) + temp[0];
+//            testCase[i][1] = "X".repeat(5 - temp[1].length()) + temp[1];
+//        }
+//
+//        Map<String, Integer> map = new HashMap<>();
+//        map.put("0",Integer.parseInt("1111110",2));
+//        map.put("1",Integer.parseInt("0110000",2));
+//        map.put("2",Integer.parseInt("1101101",2));
+//        map.put("3",Integer.parseInt("1111001",2));
+//        map.put("4",Integer.parseInt("0110011",2));
+//        map.put("5",Integer.parseInt("1011011",2));
+//        map.put("6",Integer.parseInt("1011111",2));
+//        map.put("7",Integer.parseInt("1110010",2));
+//        map.put("8",Integer.parseInt("1111111",2));
+//        map.put("9",Integer.parseInt("1111011",2));
+//        map.put("X",Integer.parseInt("0000000",2));
+//
+//
+//        for(int i = 0; i < n; i++) {
+//            int totalCnt = 0;
+//            for(int j = 0; j < 5; j++) {
+//                if(testCase[i][0].charAt(j) == testCase[i][1].charAt(j)) {
+//                    continue;
+//                }
+//                totalCnt += Integer.bitCount(map.get(String.valueOf(testCase[i][0].charAt(j))) ^ map.get(String.valueOf(testCase[i][1].charAt(j))));
+//
+//            }
+//            System.out.println(totalCnt);
+//        }
+//    }
+
+//    public static void main(String[] args) throws IOException {
+
+
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        int n = Integer.parseInt(br.readLine());
+//        String[] houseArr = br.readLine().split(" ");
+////        List<Integer> list = Arrays.stream(houseArr)
+////                .mapToInt(s -> Integer.parseInt(s))
+////                .sorted()
+////                .boxed()
+////                .collect(Collectors.toList());
+//
+//        int max = 1;
+//        for(int i = 2; i <= 100; i++) {
+//            int num = 0;
+//            for(int j = 0; j < n; j++) {
+//                if(Integer.parseInt(houseArr[j]) % i == 0) {
+//                    num++;
+//                }
+//                max = Math.max(max, num);
+//            }
+//        }
+//        System.out.println(max);
+//
+////        for(int i = 2; i < list.get(list.size()-1)/2; i++) {
+////            int num = 0;
+////            for(int j = idx; j < n; j++) {
+////                if(list.get(j) % i == 0) {
+////                    num++;
+////                }
+////                max = Math.max(max, num);
+////            }
+////        }
+//
+////        for(int i = 0; i < n-1; i++) {
+////            int base = list.get(i);
+////            int num = 1;
+////            for(int j = i+1; j < n; j++) {
+////                if(list.get(j) % base == 0) {
+////                    num++;
+////                }
+////                max = Math.max(max, num);
+////            }
+////        }
+//        System.out.println(max);
+//    }
 
 
 //    public static void main(String[] args) throws IOException {
