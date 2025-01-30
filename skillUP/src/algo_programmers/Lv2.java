@@ -1,9 +1,6 @@
 package algo_programmers;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class Lv2 {
     static boolean[][] sol2_visited;
@@ -15,21 +12,108 @@ public class Lv2 {
     public static void main(String[] args) {
 //        solution(new int[]{1, 2, 1, 3, 1, 4, 1, 2});
 
-        int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}};
+//        int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}};
 //        int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,0},{0,0,0,0,1}};
-        System.out.println(solution2(maps));
+//        System.out.println(solution2(maps));
+
+//        solution3("KAKAO");
+
+//        solution4(2, 4, 2, 1);
+
+    }
+
+    public static int[] solution5(int[] numbers) {
+        int n = numbers.length;
+        int[] answer = new int[n];
+        Stack<Integer> stack = new Stack<>();
+
+        for(int i = n-1; i >= 0; i--) {
+            while(!stack.isEmpty() && stack.peek() <= numbers[i]) {
+                stack.pop();
+            }
+            answer[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(numbers[i]);
+        }
+
+        return answer;
+    }
+
+    public static String solution4(int n, int t, int m, int p) {
+        String answer = "";
+
+        int num = 0;
+        int cnt = 0;
+        int order = p;
+        StringBuilder sb = new StringBuilder();
+        while(t > cnt) {
+            sb.setLength(0);
+            sb.append(Integer.toString(num,n).toUpperCase());
+            for(int i = 0; i < sb.length(); i++) {
+                if(order == 1) {
+                    answer += sb.charAt(i);
+                    order += m;
+                    cnt++;
+                }
+
+                if(t < cnt) {
+                    break;
+                }
+                order--;
+            }
+            num++;
+        }
+
+        return answer;
+    }
+
+    public static int[] solution3(String msg) {
+        List<Integer> list = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+
+        int idx = 1;
+        for(char ch = 'A'; ch <= 'Z'; ch++) {
+            map.put(ch+"", idx);
+            idx++;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int keyIndex = 0;
+        boolean isEnd = false;
+        for(int i = 0; i < msg.length(); i++) {
+            sb.setLength(0);
+            int j = i;
+            sb.append(msg.charAt(i));
+            while(map.containsKey(sb.toString())) {
+                keyIndex = map.get(sb.toString());
+                if(j == msg.length()-1) {
+                    isEnd = true;
+                    break;
+                }
+                sb.append(msg.charAt(++j));
+            }
+
+            map.put(sb.toString(), idx++);
+            list.add(keyIndex);
+            if(i < msg.length()-1) {
+                i = j-1;
+            }
+
+            if(isEnd) {
+                break;
+            }
+        }
+
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public static int solution2(int[][] maps) {
         sol2_visited = new boolean[maps.length][maps[0].length];
-//        dfs(0,0,maps,1);
-
+//        sol2_dfs(0,0,maps,1);
 //        return sol2_min == Integer.MAX_VALUE ? -1 : sol2_min;
-
-        return bfs(maps.length, maps[0].length, maps);
+        return sol2_bfs(maps.length, maps[0].length, maps);
     }
 
-    public static int bfs(int n, int m, int[][] maps) {
+    public static int sol2_bfs(int n, int m, int[][] maps) {
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[]{0,0,1});
         sol2_visited[0][0] = true;
@@ -58,7 +142,7 @@ public class Lv2 {
         return -1;
     }
 
-    public static void dfs(int x, int y, int[][] maps, int sum) {
+    public static void sol2_dfs(int x, int y, int[][] maps, int sum) {
         if(sum >= sol2_min) return;
 
         if(x == maps.length-1 && y == maps[0].length-1) {
@@ -71,7 +155,7 @@ public class Lv2 {
             int dirX = x+sol2_dirX[i];
             int dirY = y+sol2_dirY[i];
             if(dirX >= 0 && dirY >= 0 && dirX < maps.length && dirY < maps[0].length && !sol2_visited[dirX][dirY] && maps[dirX][dirY] == 1) {
-                dfs(dirX, dirY, maps, sum+1);
+                sol2_dfs(dirX, dirY, maps, sum+1);
             }
         }
         sol2_visited[x][y] = false;
