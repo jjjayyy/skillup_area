@@ -19,7 +19,7 @@ public class ttestt {
         List<String> strList = list.stream().map(o -> o.toString()).collect(Collectors.toList());
 
 
-        for(String item : strList) {
+        for (String item : strList) {
             System.out.println(item);
         }
     }

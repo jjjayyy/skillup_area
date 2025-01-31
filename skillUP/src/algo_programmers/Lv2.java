@@ -20,12 +20,76 @@ public class Lv2 {
 
 //        solution4(2, 4, 2, 1);
 
+        int[] fees = {180, 5000, 10, 600};
+        String[] records = {"05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"};
+        solution6(fees, records);
+
     }
+
+    public static int[] solution6(int[] fees, String[] records) {
+        int baseTime = fees[0];
+        int baseFee = fees[1];
+        int unitTime = fees[2];
+        int unitFee = fees[3];
+
+        Map<String, Integer> carMap = new HashMap<>();
+        Map<String, String> timeMap = new HashMap<>();
+
+        for(String record : records) {
+            String temp[] = record.split(" ");
+            String time = temp[0];
+            String number = temp[1];
+
+            if(timeMap.containsKey(number)) {
+                String[] timeTemp = timeMap.get(number).split(":");
+                int inHH = Integer.parseInt(timeTemp[0]);
+                int inMM = Integer.parseInt(timeTemp[1]);
+
+                timeTemp = time.split(":");
+                int outHH = Integer.parseInt(timeTemp[0]);
+                int outMM = Integer.parseInt(timeTemp[1]);
+
+                int carTime = (outHH - inHH) * 60 + (outMM - inMM);
+                carMap.put(number, carMap.getOrDefault(number,0) + carTime);
+
+                timeMap.remove(number);
+                continue;
+            }
+            timeMap.put(number, time);
+        }
+
+        for(String key : timeMap.keySet()) {
+            String[] timeTemp = timeMap.get(key).split(":");
+            int inHH = Integer.parseInt(timeTemp[0]);
+            int inMM = Integer.parseInt(timeTemp[1]);
+
+            int carTime = (23 - inHH) * 60 + (59 - inMM);
+            carMap.put(key, carMap.getOrDefault(key,0) + carTime);
+        }
+
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(carMap.entrySet());
+        entryList.sort(Map.Entry.comparingByKey());
+
+        int[] answer = new int[entryList.size()];
+        for(int i = 0; i < entryList.size(); i++) {
+            if(entryList.get(i).getValue() <= baseTime) {
+                answer[i] = baseFee;
+                continue;
+            }
+
+            int fee = baseFee + (int)Math.ceil((entryList.get(i).getValue() - baseTime) / (double) unitTime) * unitFee;
+            answer[i] = fee;
+        }
+
+        return answer;
+    }
+
 
     public static int[] solution5(int[] numbers) {
         int n = numbers.length;
         int[] answer = new int[n];
         Stack<Integer> stack = new Stack<>();
+
 
         for(int i = n-1; i >= 0; i--) {
             while(!stack.isEmpty() && stack.peek() <= numbers[i]) {
