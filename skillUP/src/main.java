@@ -50,8 +50,35 @@ public class main {
 
 //        test();
 
-        String[] commands = {"prev", "next", "next"};
-        solution250507("10:55", "00:05", "00:15", "06:55", commands);
+//        String[] commands = {"prev", "next", "next"};
+//        solution250507("10:55", "00:05", "00:15", "06:55", commands);
+
+        int[] wallet = {};
+        int[] bill = {};
+        solution250511(wallet, bill);
+    }
+
+    public static int solution250511(int[] wallet, int[] bill) {
+        int answer = 0;
+
+        int minBill = Math.min(bill[0],bill[1]);
+        int maxBill = Math.max(bill[0],bill[1]);
+        int minWallet = Math.min(wallet[0],wallet[1]);
+        int maxWallet = Math.max(wallet[0],wallet[1]);
+
+        while(minBill > minWallet || maxBill > maxWallet) {
+            if(bill[0] > bill[1]) {
+                bill[0]/=2;
+            } else {
+                bill[1]/=2;
+            }
+            answer++;
+
+            minBill = Math.min(bill[0],bill[1]);
+            maxBill = Math.max(bill[0],bill[1]);
+        }
+
+        return answer;
     }
 
 
