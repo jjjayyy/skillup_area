@@ -57,23 +57,55 @@ public class main {
 //        int[] bill = {};
 //        solution250511(wallet, bill);
 
-        int[] bandage = {5,1,5};
-        int health = 30;
-        int[][] attacks = {{2, 10}, {9, 15}, {10, 5}, {11, 5}};
-        solution250511_2(bandage, health, attacks);
+//        int[] bandage = {5,1,5};
+//        int health = 30;
+//        int[][] attacks = {{2, 10}, {9, 15}, {10, 5}, {11, 5}};
+//        solution250511_2(bandage, health, attacks);
+
+        int[] diffs = {1,5,3};
+        int[] times = {2,4,7};
+        long limit = 30;
+        solution250511_4(diffs, times, limit);
     }
 
-    public int[][] solution250511_3(int[][] data, String ext, int val_ext, String sort_by) {
-        String[] arr = {"code","date","maximum","remain"};
-        List<String> columnList = Arrays.asList(arr);
-        int extIdx = columnList.indexOf(ext);
-        int sortIdx = columnList.indexOf(sort_by);
-        int[][] answer = Arrays.stream(data)
-                .filter(o1 -> o1[extIdx] < val_ext)
-                .sorted((o1 ,o2) -> o1[sortIdx]-o2[sortIdx])
-                .toArray(int[][]::new);
+    public static int solution250511_4(int[] diffs, int[] times, long limit) {
 
-        return answer;
+        int mid = 0;
+        int max = 100000;
+        int min = 1;
+        while(min <= max) {
+            mid = (max+min) / 2;
+            long time = 0;
+            for(int i = 0; i < diffs.length; i++) {
+                time += times[i];
+                if(diffs[i] > mid) {
+                    time += (times[i] + times[i-1]) * (diffs[i] - mid);
+                }
+                if(limit < time) {
+                    break;
+                }
+            }
+
+            if(limit < time) {
+                min = mid+1;
+            } else {
+                max = mid-1;
+            }
+        }
+        return min;
+    }
+
+//    public int[][] solution250511_3(int[][] data, String ext, int val_ext, String sort_by) {
+//        String[] arr = {"code","date","maximum","remain"};
+//        List<String> columnList = Arrays.asList(arr);
+//        int extIdx = columnList.indexOf(ext);
+//        int sortIdx = columnList.indexOf(sort_by);
+//        int[][] answer = Arrays.stream(data)
+//                .filter(o1 -> o1[extIdx] < val_ext)
+//                .sorted((o1 ,o2) -> o1[sortIdx]-o2[sortIdx])
+//                .toArray(int[][]::new);
+//
+//        return answer;
 
 
 //        Map<String,Integer> colMap = new HashMap<>();
@@ -93,7 +125,7 @@ public class main {
 //        list.sort(Comparator.comparing(newData -> newData[colMap.get(sort_by)]));
 //
 //        return list.toArray(new int[0][]);
-    }
+//    }
 
     public static int solution250511_2(int[] bandage, int health, int[][] attacks) {
         int answer = 0;
