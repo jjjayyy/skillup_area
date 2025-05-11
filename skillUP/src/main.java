@@ -53,9 +53,72 @@ public class main {
 //        String[] commands = {"prev", "next", "next"};
 //        solution250507("10:55", "00:05", "00:15", "06:55", commands);
 
-        int[] wallet = {};
-        int[] bill = {};
-        solution250511(wallet, bill);
+//        int[] wallet = {};
+//        int[] bill = {};
+//        solution250511(wallet, bill);
+
+        int[] bandage = {5,1,5};
+        int health = 30;
+        int[][] attacks = {{2, 10}, {9, 15}, {10, 5}, {11, 5}};
+        solution250511_2(bandage, health, attacks);
+    }
+
+    public int[][] solution250511_3(int[][] data, String ext, int val_ext, String sort_by) {
+        String[] arr = {"code","date","maximum","remain"};
+        List<String> columnList = Arrays.asList(arr);
+        int extIdx = columnList.indexOf(ext);
+        int sortIdx = columnList.indexOf(sort_by);
+        int[][] answer = Arrays.stream(data)
+                .filter(o1 -> o1[extIdx] < val_ext)
+                .sorted((o1 ,o2) -> o1[sortIdx]-o2[sortIdx])
+                .toArray(int[][]::new);
+
+        return answer;
+
+
+//        Map<String,Integer> colMap = new HashMap<>();
+//        colMap.put("code",0);
+//        colMap.put("date",1);
+//        colMap.put("maximum",2);
+//        colMap.put("remain",3);
+//        colMap.get(ext);
+//
+//        List<int[]> list = new ArrayList<>();
+//        for(int i = 0; i < data.length; i++) {
+//            if(val_ext > data[i][colMap.get(ext)]) {
+//                list.add(data[i]);
+//            }
+//        }
+//
+//        list.sort(Comparator.comparing(newData -> newData[colMap.get(sort_by)]));
+//
+//        return list.toArray(new int[0][]);
+    }
+
+    public static int solution250511_2(int[] bandage, int health, int[][] attacks) {
+        int answer = 0;
+        int maxHP = health;
+
+        for(int i = 0; i < attacks.length; i++) {
+            if(i > 0) {
+                int healSec = attacks[i][0]-1 - attacks[i-1][0];
+                health += healSec * bandage[1] + healSec/bandage[0] * bandage[2];
+                if(health > maxHP) {
+                    health = maxHP;
+                }
+            }
+
+            health -= attacks[i][1];
+
+            if(health <= 0) {
+                answer = -1;
+                break;
+            }
+
+            answer = health;
+        }
+
+        return answer;
     }
 
     public static int solution250511(int[] wallet, int[] bill) {
