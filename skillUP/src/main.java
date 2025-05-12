@@ -62,10 +62,46 @@ public class main {
 //        int[][] attacks = {{2, 10}, {9, 15}, {10, 5}, {11, 5}};
 //        solution250511_2(bandage, health, attacks);
 
-        int[] diffs = {1,5,3};
-        int[] times = {2,4,7};
-        long limit = 30;
-        solution250511_4(diffs, times, limit);
+//        int[] diffs = {1,5,3};
+//        int[] times = {2,4,7};
+//        long limit = 30;
+//        solution250511_4(diffs, times, limit);\
+
+        int[] schedules = {750};
+        int[][] timelogs = {{800,740,750}};
+        solution250512_1(schedules, timelogs, 1);
+    }
+
+    public static int solution250512_1(int[] schedules, int[][] timelogs, int startday) {
+        int answer = 0;
+
+        for(int i = 0; i < timelogs.length; i++) {
+            int innerStartday = startday-1;
+            boolean isPass = true;
+
+            int mm = schedules[i] % 100 + 10;
+            int hh = schedules[i] / 100 + (mm / 60);
+            int time = hh*100 + mm%60;
+            for(int j = 0; j < timelogs[i].length; j++) {
+                innerStartday++;
+                if(innerStartday > 7) {
+                    innerStartday = 1;
+                }
+
+                if(innerStartday > 5) {
+                    continue;
+                }
+
+                if(time < timelogs[i][j]) {
+                    isPass = false;
+                    break;
+                }
+            }
+            if(isPass) {
+                answer++;
+            }
+        }
+        return answer;
     }
 
     public static int solution250511_4(int[] diffs, int[] times, long limit) {
