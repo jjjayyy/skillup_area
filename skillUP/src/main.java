@@ -72,6 +72,37 @@ public class main {
         solution250512_1(schedules, timelogs, 1);
     }
 
+    public static int solution250513_1(int[] mats, String[][] park) {
+        int[] sorted = Arrays.stream(mats)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
+
+        for(int size : sorted) {
+            for(int i = 0; i <= park.length-size; i++) {
+                for(int j = 0; j <= park[0].length-size; j++) {
+                    if (canPlace(park, i, j, size)) {
+                        return size;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private static boolean canPlace(String[][] park, int row, int col, int size) {
+        for (int i = row; i < row + size; i++) {
+            for (int j = col; j < col + size; j++) {
+                if (!park[i][j].equals("-1")) {
+                    return false; // 사람이 있음
+                }
+            }
+        }
+        return true;
+    }
+
     public static int solution250512_1(int[] schedules, int[][] timelogs, int startday) {
         int answer = 0;
 
