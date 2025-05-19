@@ -67,10 +67,154 @@ public class main {
 //        long limit = 30;
 //        solution250511_4(diffs, times, limit);\
 
-        int[] schedules = {750};
-        int[][] timelogs = {{800,740,750}};
-        solution250512_1(schedules, timelogs, 1);
+//        int[] schedules = {750};
+//        int[][] timelogs = {{800,740,750}};
+//        solution250512_1(schedules, timelogs, 1);
+
+        solution250516_1(2, 1, 2);
+
     }
+
+    public int[] solution250519_2(String s) {
+        int[] answer = new int[2];
+        int cnt = 0;
+        int zeroCnt = 0;
+
+        while(s.length() > 1) {
+            int len = s.length();
+            int oneLen = s.replaceAll("0","").length();
+
+            zeroCnt += len - oneLen;
+
+            s = Integer.toBinaryString(oneLen);
+            cnt++;
+        }
+
+        answer[0] = cnt;
+        answer[1] = zeroCnt;
+        return answer;
+    }
+
+    public String solution250519_1(String s)
+    {
+        StringBuilder sb = new StringBuilder(s.toLowerCase());
+
+        boolean isFirst = true;
+        for(int i = 0; i < sb.length(); i++) {
+            if(isNumber250519_1(sb.charAt(i)+"")) {
+                isFirst = false;
+                continue;
+            }
+
+            if(sb.charAt(i) == ' ') {
+                isFirst = true;
+                continue;
+            }
+
+            if(isFirst) {
+                sb.replace(i,i+1,String.valueOf(sb.charAt(i)).toUpperCase());
+                isFirst = false;
+            }
+        }
+
+        return sb.toString();
+    }
+
+    private boolean isNumber250519_1(String num) {
+        try {
+            Integer.parseInt(num);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean solution250518_1(String s) {
+        int cnt = 0;
+        for(int i = 0; i < s.length(); i++) {
+            cnt = s.charAt(i) == '(' ? cnt+1 : cnt-1;
+            if(cnt < 0) break;
+        }
+        return cnt == 0;
+    }
+
+
+    public String solution(String s) {
+        String[] arr = s.split(" ");
+        int max = Integer.MAX_VALUE * -1;
+        int min = Integer.MAX_VALUE;
+        for(String str : arr) {
+            int num = Integer.parseInt(str);
+            max = Math.max(max,num);
+            min = Math.min(min,num);
+        }
+
+        return min + " " + max;
+    }
+
+
+    public int solution250517_1(int[][] info, int n, int m) {
+        int answer = Integer.MAX_VALUE;
+
+        int[][] dp = new int[info.length+1][m];
+
+        for(int i = 0; i <= info.length; i++) {
+            Arrays.fill(dp[i],Integer.MAX_VALUE);
+        }
+
+        dp[0][0] = 0;
+
+        for(int i = 0; i < info.length; i++) {
+            int a = info[i][0];
+            int b = info[i][1];
+
+            for(int j = 0; j < m; j++) {
+                if (dp[i][j] == Integer.MAX_VALUE) continue;
+
+                if(dp[i][j] + a < n) {
+                    dp[i+1][j] = Math.min(dp[i+1][j], dp[i][j] + a);
+                }
+
+                if(j + b < m) {
+                    dp[i+1][j+b] = Math.min(dp[i+1][j+b], dp[i][j]);
+                }
+            }
+        }
+
+        for(int i = 0; i < m; i++) {
+            answer = Math.min(answer, dp[info.length][i]);
+        }
+
+
+        return answer == Integer.MAX_VALUE ? -1 : answer    ;
+    }
+
+
+    public static int solution250516_1(int n, int w, int num) {
+        int answer = 0;
+        int n1 = n / w;
+        int n2 = n % w;
+
+        int num1 = num / w;
+        int num2 = num % w;
+
+        if(w > 1 && n1 % 2 == num1 % 2 && n2 >= num2) {
+            answer += 1;
+        }
+
+        if(w > 1 && n1 % 2 != num1 % 2 && w-n2 < num2) {
+            answer += 1;
+        }
+
+        if(num % w > 0) {
+            num1 += 1;
+        }
+
+        answer += n1+1 - num1;
+
+        return answer;
+    }
+
 
     public static int solution250513_1(int[] mats, String[][] park) {
         int[] sorted = Arrays.stream(mats)
